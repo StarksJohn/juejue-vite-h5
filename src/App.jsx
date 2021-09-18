@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useLocation
-} from "react-router-dom";
-import { ConfigProvider } from 'zarm';
-import routes from '@/router';
-import NavBar from '@/components/NavBar';
+} from 'react-router-dom'
+import { ConfigProvider } from 'zarm'
+import routes from '@/router'
+import NavBar from '@/components/NavBar'
 
-const  App = () => {
+const App = () => {
   const location = useLocation()
   const { pathname } = location // 获取当前路径
   const needNav = ['/', '/data', '/user'] // 需要底部导航栏的路径
@@ -28,7 +28,7 @@ const  App = () => {
       </Switch>
       <NavBar showNav={showNav} />
     </>
-  </ConfigProvider>;
-};
+  </ConfigProvider>
+}
 
-export default App;
+export default App

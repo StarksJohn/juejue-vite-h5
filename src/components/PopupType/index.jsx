@@ -7,10 +7,10 @@ import { get } from '@/utils'
 import s from './style.module.less'
 
 const PopupType = forwardRef(({ onSelect }, ref) => {
-  const [show, setShow] = useState(false);
-  const [active, setActive] = useState('all');
-  const [expense, setExpense] = useState([]);
-  const [income, setIncome] = useState([]);
+  const [show, setShow] = useState(false)
+  const [active, setActive] = useState('all')
+  const [expense, setExpense] = useState([])
+  const [income, setIncome] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -36,7 +36,7 @@ const PopupType = forwardRef(({ onSelect }, ref) => {
     setActive(item.id)
     setShow(false)
     onSelect(item)
-  };
+  }
 
   return <Popup
     visible={show}
@@ -55,22 +55,22 @@ const PopupType = forwardRef(({ onSelect }, ref) => {
         <div className={s.title}>支出</div>
         <div className={s.expenseWrap}>
           {
-            expense.map((item, index) => <p key={index} onClick={() => choseType(item)} className={cx({[s.active]: active == item.id})} >{ item.name }</p>)
+            expense.map((item, index) => <p key={index} onClick={() => choseType(item)} className={cx({ [s.active]: active == item.id })} >{ item.name }</p>)
           }
         </div>
         <div className={s.title}>收入</div>
         <div className={s.incomeWrap}>
           {
-            income.map((item, index) => <p key={index} onClick={() => choseType(item)} className={cx({[s.active]: active == item.id})} >{ item.name }</p>)
+            income.map((item, index) => <p key={index} onClick={() => choseType(item)} className={cx({ [s.active]: active == item.id })} >{ item.name }</p>)
           }
         </div>
       </div>
     </div>
   </Popup>
-});
+})
 
 PopupType.propTypes = {
   onSelect: PropTypes.func
 }
 
-export default PopupType;
+export default PopupType
