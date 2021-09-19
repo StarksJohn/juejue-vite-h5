@@ -12,8 +12,8 @@ export default defineConfig({
           libraryName: 'zarm',
           esModule: true,
           resolveStyle: (name) => {
-            return `zarm/es/${name}/style/css`;
-          },
+            return `zarm/es/${name}/style/css`
+          }
         }
       ]
     }
@@ -25,24 +25,26 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         // 支持内联 JavaScript
-        javascriptEnabled: true,
+        javascriptEnabled: true
       }
     }
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'), // src 路径
-      'config': path.resolve(__dirname, 'src/config') // src 路径
+      '@': path.resolve(__dirname, 'src') // src 路径
     }
   },
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       // 当遇到 /api 路径时，将其转换成 target 的值
-  //       target: 'http://47.99.134.126:7009',
-  //       changeOrigin: true,
-  //       rewrite: path => path.replace(/^\/api/, '') // 将 /api 重写为空
-  //     }
-  //   }
-  // }
+  server: {
+    /**
+     * 开发环境需要这个配置 正式打包不需要 https://juejin.cn/book/6966551262766563328/section/6967228597979316262
+     */
+    proxy: {
+      '/api': {
+        // 当遇到 /api 路径时，将其转换成 target 的值
+        target: 'http://47.99.134.126:7009',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '') // 将 /api 重写为空
+      }
+    }
+  }
 })

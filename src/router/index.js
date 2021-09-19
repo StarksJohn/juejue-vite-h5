@@ -8,39 +8,45 @@ import Account from '@/container/Account'
 import About from '@/container/About'
 import UserInfo from '@/container/UserInfo'
 
-const routes = [
-  {
-    path: "/",
-    component: Home
+/**
+ * import routes from '@/router'
+ */
+const routes = {
+  home: {
+    path: '/',
+    component: Home,
+    name: '账单'
   },
-  {
-    path: "/data",
-    component: Data
+  statistics: {
+    path: '/data',
+    component: Data,
+    name: '统计'
   },
-  {
-    path: "/user",
-    component: User
+  user: {
+    path: '/user',
+    component: User,
+    name: '我的'
   },
-  {
-    path: "/login",
+  login: {
+    path: '/login',
     component: Login
   },
-  {
-    path: "/detail",
+  detail: {
+    path: '/detail',
     component: Detail
   },
-  {
-    path: "/account",
+  account: {
+    path: '/account',
     component: Account
   },
-  {
-    path: "/about",
+  about: {
+    path: '/about',
     component: About
   },
-  {
-    path: "/userinfo",
+  userinfo: {
+    path: '/userinfo',
     component: UserInfo
-  },
-];
+  }
+}
 
 export default routes

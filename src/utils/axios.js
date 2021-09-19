@@ -1,12 +1,32 @@
 import axios from 'axios'
 import { Toast } from 'zarm'
 
-const MODE = import.meta.env.MODE // 环境变量
+/**
+ * https://juejin.cn/book/6966551262766563328/section/6967228597979316262 二次封装 axios
+ * @type {string}
+ */
 
-axios.defaults.baseURL = MODE == 'development' ? 'http://47.99.134.126:7009' : 'http://47.99.134.126:7009'
+/**
+ * MODE 是一个环境变量，通过 Vite 构建的项目中，环境变量在项目中，可以通过 import.meta.env.MODE 获取，环境变量的作用就是判断当前代码运行在开发环境还是生产环境。
+ * @type {string}
+ */
+const MODE = import.meta.env.MODE
+
+/**
+ * baseURL 是 axios 的配置项，它的作用就是设置请求的基础路径，后续我们会在项目实战中有所体现。配置基础路径的好处就是，当请求地址修改的时候，可以在此统一配置。
+ * 用 /api 这样的请求地址。其实它就是为了 代理请求 而配置的。
+ * @type {string}
+ */
+axios.defaults.baseURL = MODE === 'development' ? '/api' : 'http://api.chennick.wang'
 axios.defaults.withCredentials = true
+/**
+ * 请求头的设置
+ * @type {string}
+ */
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.headers['Authorization'] = `${localStorage.getItem('token') || null}`
+// Authorization 是我们在服务端鉴权的时候用到的，我们在前端设置好 token，服务端通过获取请求头中的 token 去验证每一次请求是否合法
+axios.defaults.headers.Authorization = `${localStorage.getItem('token') || null}`
+// 配置 post 请求时，使用的请求体
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 axios.interceptors.response.use(res => {
@@ -14,12 +34,12 @@ axios.interceptors.response.use(res => {
     Toast.show('服务端异常！')
     return Promise.reject(res)
   }
-  if (res.data.code != 200) {
+  if (res.data.code !== 200) {
     if (res.data.msg) Toast.show(res.data.msg)
-    if (res.data.code == 401) {
+    if (res.data.code === 401) {
       window.location.href = '/login'
     }
-    if (res.data.code == 413) {
+    if (res.data.code === 413) {
       Toast.show('图片不得超过 50kb')
     }
     return Promise.reject(res.data)
