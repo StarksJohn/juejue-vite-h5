@@ -17,17 +17,49 @@ const MODE = import.meta.env.MODE
  * 用 /api 这样的请求地址。其实它就是为了 代理请求 而配置的。
  * @type {string}
  */
-axios.defaults.baseURL = MODE === 'development' ? '/api' : 'http://api.chennick.wang'
+axios.defaults.baseURL = MODE === 'development' ? '/api' : 'http://api.xxx.wang'
+/**
+ * https://www.ruanyifeng.com/blog/2016/04/cors.html
+ * 对所有 axios 请求做处理,是否让请求中携带 cookie
+ * 指示是否应使用凭据发出跨站点访问控制请求
+ * 当前请求为跨域类型时是否在请求中协带cookie,前端设置credentials属性后，要通知后端做允许，否则请求失败，状态200黑色
+ */
 axios.defaults.withCredentials = true
+
 /**
  * 请求头的设置
  * @type {string}
  */
+/**
+ * https://www.ruanyifeng.com/blog/2016/04/cors.html
+ * 是否允许发送Cookie
+ * @type {boolean}
+ */
+axios.defaults.headers['Access-Control-Allow-Credentials'] = true
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+/**
+ * https://www.ruanyifeng.com/blog/2016/04/cors.html
+ * 它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。
+ * 表示接受任意域名的请求
+ * 如果要发送Cookie，Access-Control-Allow-Origin就不能设为星号，必须指定明确的、与请求网页一致的域名。
+ * https://blog.csdn.net/weixin_39605278/article/details/112329169 跨域请求携带cookie
+ *
+ * @type {string}
+ */
+axios.defaults.headers['Access-Control-Allow-Origin'] = 'https://www.douyacun.com'
 // Authorization 是我们在服务端鉴权的时候用到的，我们在前端设置好 token，服务端通过获取请求头中的 token 去验证每一次请求是否合法
 axios.defaults.headers.Authorization = `${localStorage.getItem('token') || null}`
 // 配置 post 请求时，使用的请求体
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+
+axios.interceptors.request.use((config) => {
+  console.log('axios.js request config=', config)
+  return config
+}, error => {
+  // Do something with request error
+  console.log('axios.ts interceptors.request error=', error)
+  return Promise.reject(error)
+})
 
 axios.interceptors.response.use(res => {
   if (typeof res.data !== 'object') {

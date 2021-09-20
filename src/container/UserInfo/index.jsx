@@ -3,7 +3,7 @@ import { Button, FilePicker, Input, Toast } from 'zarm';
 import { useHistory } from 'react-router-dom';
 import Header from '@/components/Header';
 import axios from 'axios';
-import { get, post, imgUrlTrans } from '@/utils'
+import { get, post, imgUrlTrans } from '@/api'
 import { baseUrl } from '@/config'
 import s from './style.module.less';
 

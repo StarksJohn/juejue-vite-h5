@@ -7,7 +7,7 @@ import PopupAddBill from '@/components/PopupAddBill'
 import BillItem from '@/components/BillItem'
 import Empty from '@/components/Empty'
 import CustomIcon from '@/components/CustomIcon'
-import { get, REFRESH_STATE, LOAD_STATE } from '@/utils'
+import { get, REFRESH_STATE, LOAD_STATE } from '@/api'
 
 import s from './style.module.less'
 

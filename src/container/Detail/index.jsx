@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import Header from '@/components/Header'
 import CustomIcon from '@/components/CustomIcon'
 import PopupAddBill from '@/components/PopupAddBill'
-import { get, post, typeMap } from '@/utils'
+import { get, post, typeMap } from '@/api'
 
 import s from './style.module.less'
 

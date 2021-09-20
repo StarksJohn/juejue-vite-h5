@@ -2,7 +2,7 @@ import React from 'react';
 import { Cell, Input, Button, Toast } from 'zarm';
 import { createForm  } from 'rc-form';
 import Header from '@/components/Header'
-import { post } from '@/utils'
+import { post } from '@/api'
 
 import s from './style.module.less'
 

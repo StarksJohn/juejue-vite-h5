@@ -2,10 +2,10 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Popup, Icon, Toast, Keyboard, Modal, Input  } from 'zarm';
 import cx from 'classnames'
-import dayjs from 'dayjs'; 
+import dayjs from 'dayjs';
 import CustomIcon from '../CustomIcon'
 import PopupDate from '../PopupDate'
-import { get, typeMap, post } from '@/utils'
+import { get, typeMap, post } from '@/api'
 
 import s from './style.module.less';
 
@@ -21,7 +21,7 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   const [remark, setRemark] = useState(''); // 备注
   const [showRemark, setShowRemark] = useState(false); // 备注输入框
   const [date, setDate] = useState(new Date()); // 日期
- 
+
 
   useEffect(() => {
     if (detail.id) {
@@ -88,7 +88,7 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   // 监听输入框改变值
   const handleMoney = (value) => {
     value = String(value)
-    if (value == 'close') return 
+    if (value == 'close') return
     // 点击是删除按钮时
     if (value == 'delete') {
       let _amount = amount.slice(0, amount.length - 1)

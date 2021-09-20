@@ -3,7 +3,7 @@ import { Cell, Input, Button, Checkbox, Toast } from 'zarm'
 import cx from 'classnames'
 import Captcha from 'react-captcha-code'
 import CustomIcon from '@/components/CustomIcon'
-import { post } from '@/utils'
+import { post } from '@/api'
 
 import s from './style.module.less'
 

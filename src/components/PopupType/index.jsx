@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Popup, Icon } from 'zarm'
 import cx from 'classnames'
-import { get } from '@/utils'
+import { get } from '@/api'
 
 import s from './style.module.less'
 

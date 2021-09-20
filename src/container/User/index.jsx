@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Cell, Modal, Input, Button, Toast, FilePicker } from 'zarm'
-import { get, post, imgUrlTrans } from '@/utils'
+import { get, post, imgUrlTrans } from '@/api'
 
 import s from './style.module.less'
 

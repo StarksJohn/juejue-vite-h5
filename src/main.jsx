@@ -6,12 +6,17 @@ import {
 import 'lib-flexible/flexible'
 import './index.css'
 import App from './App'
+import { CookiesProvider } from 'react-cookie'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>,
+     <CookiesProvider>
+      <Router>
+        <App />
+      </Router>
+     </CookiesProvider>
+
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 )

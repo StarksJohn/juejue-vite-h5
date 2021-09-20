@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { Cell } from 'zarm';
 import { useHistory } from 'react-router-dom'
 import CustomIcon from '../CustomIcon';
-import { typeMap } from '@/utils';
+import { typeMap } from '@/api';
 
 import s from './style.module.less';
 
