@@ -4,8 +4,9 @@ import cx from 'classnames'
 import Captcha from 'react-captcha-code'
 import CustomIcon from '@/components/CustomIcon'
 import { post } from '@/api'
-
+import { tool } from 'react-cacheable-dva'
 import s from './style.module.less'
+import { userModel } from '@/dva'
 
 // 登录 | 注册页面
 const Login = () => {
@@ -37,6 +38,16 @@ const Login = () => {
           password
         })
         localStorage.setItem('token', data.token)
+        tool.dispatchAnyWhere({
+          type: userModel.effects.saveSomeThing,
+          action: userModel.action.access_token,
+          payload: {
+            access_token: data.token
+          },
+          callback: (result) => {
+            console.log('Login dispatchAnyWhere callback=', result)
+          }
+        })
         window.location.href = '/'
       } else {
         if (!verify) {

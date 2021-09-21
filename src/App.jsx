@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,6 +21,8 @@ const App = () => {
   const needNav = [routes.home.path, routes.statistics.path, routes.user.path] // 需要底部导航栏的路径
   const [showNav, setShowNav] = useState(false) // 是否展示 Nav
   const [cookies, setCookie] = useCookies([''])
+  const { access_token } = useSelector((state) => state.userModel)
+  console.log('App.jsx access_token=', access_token)
   console.log('useCookies==', cookies)
   console.log('Cookies.get==', Cookies.get())
   console.log('document.cookie=', document.cookie)
