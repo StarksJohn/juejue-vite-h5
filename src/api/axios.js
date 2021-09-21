@@ -11,13 +11,14 @@ import { Toast } from 'zarm'
  * @type {string}
  */
 const MODE = import.meta.env.MODE
+export const baseURL = MODE === 'development' ? 'http://47.99.134.126:7009' : 'http://47.99.134.126:7009'
 
 /**
  * baseURL 是 axios 的配置项，它的作用就是设置请求的基础路径，后续我们会在项目实战中有所体现。配置基础路径的好处就是，当请求地址修改的时候，可以在此统一配置。
  * 用 /api 这样的请求地址。其实它就是为了 代理请求 而配置的。
  * @type {string}
  */
-axios.defaults.baseURL = MODE === 'development' ? '/api' : 'http://api.xxx.wang'
+axios.defaults.baseURL = baseURL
 /**
  * https://www.ruanyifeng.com/blog/2016/04/cors.html
  * 对所有 axios 请求做处理,是否让请求中携带 cookie
@@ -62,6 +63,7 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use(res => {
+  console.log('axios.js response res=', res)
   if (typeof res.data !== 'object') {
     Toast.show('服务端异常！')
     return Promise.reject(res)

@@ -27,7 +27,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
-    "zarm": "^2.8.2"
+    "zarm": "2.8.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.31.1",
