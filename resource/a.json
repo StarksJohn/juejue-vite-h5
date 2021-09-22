@@ -1,0 +1,24 @@
+{
+    "polls": [
+        {
+            "name": "问卷一",
+            "notes": "一个很厉害的问卷",
+            "type": "link",
+            "link": "https:\/\/www.baidu.com",
+            "completed": true
+        },
+        {
+            "name": "问卷二",
+            "notes": "一个很厉害的问卷",
+            "type": "link",
+            "link": "https:\/\/www.baidu.com"
+        },
+        {
+            "name": "问卷三",
+            "notes": "这个是一个表单问卷",
+            "type": "form",
+            "id": 1,
+            "completed": true
+        }
+    ]
+}
