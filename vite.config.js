@@ -5,19 +5,21 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactRefresh(), styleImport(
-    {
-      libs: [
-        {
-          libraryName: 'zarm',
-          esModule: true,
-          resolveStyle: (name) => {
-            return `zarm/es/${name}/style/css`
+  plugins: [
+    reactRefresh(),
+    styleImport(
+      {
+        libs: [
+          {
+            libraryName: 'zarm',
+            esModule: true,
+            resolveStyle: (name) => {
+              return `zarm/es/${name}/style/css`
+            }
           }
-        }
-      ]
-    }
-  )],
+        ]
+      }
+    )],
   css: {
     modules: {
       localsConvention: 'dashesOnly'

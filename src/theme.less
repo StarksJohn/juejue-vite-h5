@@ -1,5 +1,9 @@
 
 @black: #000;
+@grayText:#ccc;
+@paddingLeft:16px;
+@divLine:#999;
+@page-bg: #f9f9f9;
 
 .page {
   display: flex;
@@ -9,6 +13,21 @@
   min-height: 100vh; //https://www.cnblogs.com/cxdg/p/8550353.html 设置元素高度为页面整个屏幕高
   height: 100%;
   //align-items: center;
-  //position: relative;
-  //background-color:@black
+  position: relative;
+  background-color:@page-bg
 }
+
+.divLine {
+   position: absolute;
+   background-color: @grayText;
+   height: 1.5px;
+   bottom: 0;
+   left: 32px;
+   right: 0;
+ }
+
+.flex-row {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }

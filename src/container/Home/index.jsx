@@ -26,13 +26,20 @@ const Home = () => {
   const [loading, setLoading] = useState(LOAD_STATE.normal) // 上拉加载状态
 
   useEffect(() => {
+    console.log('Home.jsx componentDidMount')
+
     getBillList() // 初始化
+
+    // componentWillUnmount
+    return () => {
+      console.log('Home.jsx componentWillUnmount')
+    }
   }, [page, currentSelect, currentTime])
 
   const getBillList = async () => {
     const { data } = await get(`/api/bill/list?date=${currentTime}&type_id=${currentSelect.id || 'all'}&page=${page}&page_size=5`)
     // 下拉刷新，重制数据
-    if (page == 1) {
+    if (page === 1) {
       setList(data.list)
     } else {
       setList(list.concat(data.list))
@@ -48,7 +55,7 @@ const Home = () => {
   // 请求列表数据
   const refreshData = () => {
     setRefreshing(REFRESH_STATE.loading)
-    if (page != 1) {
+    if (page !== 1) {
       setPage(1)
     } else {
       getBillList()
@@ -90,18 +97,8 @@ const Home = () => {
 
   return <div className={s.home}>
     <div className={s.header}>
-      <div className={s.dataWrap}>
-        <span className={s.expense}>总支出：<b>¥ { totalExpense }</b></span>
-        <span className={s.income}>总收入：<b>¥ { totalIncome }</b></span>
-      </div>
-      <div className={s.typeWrap}>
-        <div className={s.left} onClick={toggle}>
-          <span className={s.title}>{ currentSelect.name || '全部类型' } <Icon className={s.arrow} type="arrow-bottom" /></span>
-        </div>
-        <div className={s.right}>
-          <span className={s.time} onClick={monthToggle}>{ currentTime }<Icon className={s.arrow} type="arrow-bottom" /></span>
-        </div>
-      </div>
+      请选择你要填写的问卷
+      <div className={s.divLine}></div>
     </div>
     <div className={s.contentWrap}>
       {
@@ -119,12 +116,20 @@ const Home = () => {
             handler: loadData
           }}
         >
-          {
-            list.map((item, index) => <BillItem
-              bill={item}
-              key={index}
-            />)
-          }
+          {/* { */}
+          {/*  list.map((item, index) => { */}
+          {/*    return <BillItem */}
+          {/*      bill={item} */}
+          {/*      key={index} */}
+          {/*    /> */}
+          {/*  } */}
+          {/*  ) */}
+          {/* } */}
+            <div className={s.cell}>
+              <div className={s.img}></div>
+              <div className={s.divLine}></div>
+
+            </div>
         </Pull>
           : <Empty />
       }
