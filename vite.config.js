@@ -45,11 +45,11 @@ export default defineConfig({
      * 坑: baseURL 作为变量 import { baseURL } from 'src/api/axios.js' 时 直接编译报错,故只能声明在此文件内
      */
     proxy: {
-      '/baseURL': {
-        // 当遇到 /baseURL 路径时，将其转换成 target 的值
+      '/api': { // api 不要改
+        // 当遇到 /api 路径时，将其转换成 target 的值
         target: baseURL,
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/baseURL/, '') // 将 /baseURL 重写为空,因 axios.js 里 为 axios.defaults.baseURL 赋值了
+        changeOrigin: true
+        // rewrite: path => path.replace(/^\/api/, '') // 将 /api 重写为空,因 axios.js 里 为 axios.defaults.baseURL 赋值了
       }
     }
   }

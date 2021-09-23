@@ -6,7 +6,7 @@ import PopupDate from '@/components/PopupDate'
 import PopupAddBill from '@/components/PopupAddBill'
 import BillItem from '@/components/BillItem'
 import Empty from '@/components/Empty'
-import CustomIcon from '@/components/CustomIcon'
+import CustomIcon, { IconFont } from '@/components/CustomIcon'
 import { get, REFRESH_STATE, LOAD_STATE, urls } from '@/api'
 import s from './style.module.less'
 import { mathTools } from '@/tools'
@@ -141,28 +141,36 @@ const Home = () => {
           }}
         >
            {
-            list.map((item, index) => {
-              // return <BillItem
-              //   bill={item}
-              //   key={index}
-              // />
-              console.log('Home list.map item=', item)
-              return <div key={index} className={s.cell}>
+            list.map(({
+              completed = false,
+              link = '',
+              name = '',
+              notes = '',
+              order = 0,
+              type = '',
+              _id = ''
+
+            }, index) => {
+              return index === 0 && <div key={index} className={s.cell}>
                  <div className={s.img}></div>
                  <div className={s.midView}>
                    {/* title */}
-                   <div className={cx({ [s.titleS]: item.completed, [s.titleW]: !item.completed })}
+                   <div className={cx({ [s.titleS]: completed, [s.titleW]: !completed })}
                    >
-                    问卷一 问卷一 问卷一 问卷一 问卷一 问卷一 问卷一 问卷一
+                     {name}
                    </div>
                    {/* text */}
-                   <div className={cx({ [s.titleS]: item.completed, [s.textW]: !item.completed })}
+                   <div className={cx({ [s.textS]: completed, [s.textW]: !completed })}
                    >
-                     这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷 这是一个很厉害的问卷
+                     {notes}
                    </div>
                  </div>
-                 {item.completed && <div className={s.doneView}></div>}
-                {/* <div className={s.divLine}></div> */}
+                 {completed && <div className={s.doneView}>
+                   <div className={s.doneText}>已完成
+                       <IconFont iconClass={s.doneIcon} type={'tianjia'} />
+                   </div>
+                 </div>}
+                 <div className={s.divLine}></div>
               </div>
             }
             )
@@ -172,7 +180,7 @@ const Home = () => {
           : <Empty />
       }
     </div>
-    <div className={s.add} onClick={addToggle}><CustomIcon type='tianjia' /></div>
+     {/* <div className={s.add} onClick={addToggle}><CustomIcon type='tianjia' /></div> */}
     <PopupType ref={typeRef} onSelect={select} />
     <PopupDate ref={monthRef} mode="month" onSelect={selectMonth} />
     <PopupAddBill ref={addRef} onReload={refreshData} />

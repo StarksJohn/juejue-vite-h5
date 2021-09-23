@@ -53,37 +53,62 @@
       }
 
       .midView {
+        display: flex;
         flex: 1;
+        flex-direction: column;
         height: 100%;
-        background-color: red;
+        //background-color: red;
         padding-left: @paddingLeft;
-        padding-top: @paddingLeft;
+        //padding-top: 8px;
         overflow: hidden;
+        justify-content: center;
+
         .title-w :extend(.text,.textOneLine) {
           color: black;
           font-size: 18px;
-          max-width:calc(100vw - 100px);
-          background-color: blue;
+          max-width: calc(100vw - 100px);
+          //background-color: yellow;
         }
+
         .title-S :extend(.text,.textOneLine) {
           color: black;
           font-size: 18px;
-          max-width:calc(100vw - 160px);
-          background-color: blue;
+          max-width: calc(100vw - 160px);
+          //background-color: yellow;
         }
+
         .text-w :extend(.text,.text3Line) {
-          max-width:calc(100vw - 100px);
-          background-color: orange;
+          max-width: calc(100vw - 100px);
+          //background-color: orange;
           margin-top: 10px;
-          flex:1;
-          line-height:18px;
+          line-height: 18px;
+        }
+
+        .text-s :extend(.text,.text3Line) {
+          max-width: calc(100vw - 160px);
+          //background-color: orange;
+          margin-top: 10px;
+          line-height: 18px;
         }
       }
 
-      .doneView {
+      .doneView :extend(.flex-row) {
         width: 60px;
         height: 100%;
-        background-color: blue;
+        //background-color: blue;
+        justify-content: center;
+
+        .doneText :extend(.text) {
+          color: #56B938;
+          font-size:12px;
+        }
+        .doneIcon :extend(.flex-center){
+          width: 15px;
+          height: 15px;
+          border-radius:15px;
+          //background-color:orange;
+          margin-left: 6px;
+        }
       }
 
       .divLine :extend(.divLine) {

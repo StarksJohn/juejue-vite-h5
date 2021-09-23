@@ -18,7 +18,7 @@ import { Toast } from 'zarm'
  * 在 vite.config.js 里设置了代理请求 proxy, 会把 /baseURL 转成 真正的 域名 https://che.medi-plus.com.cn/ ,为了 跨域携带 cookie
  * @type {string}
  */
-axios.defaults.baseURL = '/baseURL'
+// axios.defaults.baseURL = '/baseURL'
 /**
  * https://www.ruanyifeng.com/blog/2016/04/cors.html
  * 对所有 axios 请求做处理,是否让请求中携带 cookie
@@ -66,21 +66,20 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(res => {
   console.log('axios.js response res=', res)
   if (typeof res.data !== 'object') {
-    // Toast.show('服务端异常！')
+    Toast.show('服务端异常！')
     return Promise.reject(res)
   }
-  if (res.data.code !== 200) {
-    if (res.data.msg) Toast.show(res.data.msg)
-    if (res.data.code === 401) {
-      // window.location.href = '/login'
-    }
-    if (res.data.code === 413) {
-      Toast.show('图片不得超过 50kb')
-    }
-    return Promise.reject(res.data)
+  if (res.status !== 200) {
+    // if (res.data.msg) Toast.show(res.data.msg)
+    // if (res.status === 401) {
+    //   // window.location.href = '/login'
+    // }
+    // if (res.status === 413) {
+    //   Toast.show('图片不得超过 50kb')
+    // }
+    return Promise.reject('status !== 200')
   }
-
-  return res.data
+  return { data: res.data }
 }, (error) => {
   console.log('axios.js response error=', error)
   // eslint-disable-next-line prefer-promise-reject-errors
