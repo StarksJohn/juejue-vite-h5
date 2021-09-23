@@ -11,7 +11,7 @@ import { Toast } from 'zarm'
  * @type {string}
  */
 const MODE = import.meta.env.MODE
-export const baseURL = MODE === 'development' ? 'http://47.99.134.126:7009' : 'https://che.medi-plus.com.cn'
+export const baseURL = MODE === 'development' ? '/baseURL' : ''
 
 /**
  * baseURL 是 axios 的配置项，它的作用就是设置请求的基础路径，后续我们会在项目实战中有所体现。配置基础路径的好处就是，当请求地址修改的时候，可以在此统一配置。
@@ -49,7 +49,7 @@ axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 // axios.defaults.headers['Access-Control-Allow-Origin'] = 'https://che.medi-plus.com.cn'貌似是后端设置此字段
 
 // Authorization 是我们在服务端鉴权的时候用到的，我们在前端设置好 token，服务端通过获取请求头中的 token 去验证每一次请求是否合法
-axios.defaults.headers.Authorization = `${localStorage.getItem('token') || null}`
+// axios.defaults.headers.Authorization = `${localStorage.getItem('token') || null}`
 
 // 配置 post 请求时，使用的请求体
 axios.defaults.headers.post['Content-Type'] = 'application/json'
@@ -66,13 +66,13 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(res => {
   console.log('axios.js response res=', res)
   if (typeof res.data !== 'object') {
-    Toast.show('服务端异常！')
+    // Toast.show('服务端异常！')
     return Promise.reject(res)
   }
   if (res.data.code !== 200) {
     if (res.data.msg) Toast.show(res.data.msg)
     if (res.data.code === 401) {
-      window.location.href = '/login'
+      // window.location.href = '/login'
     }
     if (res.data.code === 413) {
       Toast.show('图片不得超过 50kb')
@@ -81,6 +81,10 @@ axios.interceptors.response.use(res => {
   }
 
   return res.data
+}, (error) => {
+  console.log('axios.js response error=', error)
+  // eslint-disable-next-line prefer-promise-reject-errors
+  return Promise.reject('')
 })
 
 export default axios

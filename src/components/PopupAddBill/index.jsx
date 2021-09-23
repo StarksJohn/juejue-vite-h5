@@ -48,15 +48,15 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   };
 
   useEffect(async () => {
-    const { data: { list } } = await get('/api/type/list');
-    const _expense = list.filter(i => i.type == 1); // 支出类型
-    const _income = list.filter(i => i.type == 2); // 收入类型
-    setExpense(_expense);
-    setIncome(_income);
+    // const { data: { list } } = await get('/api/type/list');
+    // const _expense = list.filter(i => i.type == 1); // 支出类型
+    // const _income = list.filter(i => i.type == 2); // 收入类型
+    // setExpense(_expense);
+    // setIncome(_income);
       // 没有 id 的情况下，说明是新建账单。
-    if (!id) {
-      setCurrentType(_expense[0]);
-    };
+    // if (!id) {
+    //   setCurrentType(_expense[0]);
+    // };
   }, []);
 
   // 切换收入还是支出

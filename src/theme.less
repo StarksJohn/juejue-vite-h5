@@ -1,33 +1,59 @@
-
 @black: #000;
-@grayText:#ccc;
-@paddingLeft:16px;
-@divLine:#999;
+@grayText: #ccc;
+@paddingLeft: 16px;
+@divLine: #999;
 @page-bg: #f9f9f9;
+@page-w:100vw;
 
 .page {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%; //CSS3引入的"vw"和"vh"基于宽度/高度相对于窗口大小,但是 width 不能=vw,否则太宽
+  width: @page-w; //CSS3引入的"vw"和"vh"基于宽度/高度相对于窗口大小,但是 width 不能=vw,否则太宽
   min-height: 100vh; //https://www.cnblogs.com/cxdg/p/8550353.html 设置元素高度为页面整个屏幕高
   height: 100%;
   //align-items: center;
   position: relative;
-  background-color:@page-bg
+  background-color: @page-bg
 }
 
 .divLine {
-   position: absolute;
-   background-color: @grayText;
-   height: 1.5px;
-   bottom: 0;
-   left: 32px;
-   right: 0;
- }
+  position: absolute;
+  background-color: @grayText;
+  height: 1.5px;
+  bottom: 0;
+  left: @paddingLeft;
+  right: 0;
+}
 
 .flex-row {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
- }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.text {
+  color: @grayText;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+//div 或 p 元素 一行显示,显示不下显示 ...
+.textOneLine {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  //max-width:calc(@page-w - 110px); 被 :extend 的 class 里要用 calc() 计算一个 max-width,才能适配不同设备
+}
+
+/**
+  div 里的文字 最多显示3行,超过3行的 ...
+ */
+.text3Line{
+  //line-height:0;需要自己实现
+  //max-width:calc(100vw - 100px);需要给div 设置一个 max-width
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
