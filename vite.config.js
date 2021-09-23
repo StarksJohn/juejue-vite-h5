@@ -52,7 +52,7 @@ export default defineConfig({
     //   }
     // }
     proxy: {
-      '/baseURL': {
+      '/api': {
         // 当遇到 /baseURL 路径时，将其转换成 target 的值
         target: baseURL,
         changeOrigin: true,
