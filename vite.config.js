@@ -40,23 +40,16 @@ export default defineConfig({
   },
   server: {
     /**
-     * 开发环境需要这个配置 正式打包不需要 https://juejin.cn/book/6966551262766563328/section/6967228597979316262
-     * 坑: baseURL 作为变量 import { baseURL } from 'src/api/axios.js' 时 直接编译报错,故放弃此功能
+     * 配置代理 https://juejin.cn/book/6966551262766563328/section/6967228597979316262
+     * 解决了大家老大难的跨域问题
+     * 坑: baseURL 作为变量 import { baseURL } from 'src/api/axios.js' 时 直接编译报错,故只能声明在此文件内
      */
-    // proxy: {
-    //   '/baseURL': {
-    //     // 当遇到 /baseURL 路径时，将其转换成 target 的值
-    //     target: baseURL,
-    //     changeOrigin: true,
-    //     rewrite: path => path.replace(/^\/baseURL/, '') // 将 /baseURL 重写为空
-    //   }
-    // }
     proxy: {
-      '/api': {
+      '/baseURL': {
         // 当遇到 /baseURL 路径时，将其转换成 target 的值
         target: baseURL,
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/baseURL/, '') // 将 /api 重写为空
+        rewrite: path => path.replace(/^\/baseURL/, '') // 将 /baseURL 重写为空,因 axios.js 里 为 axios.defaults.baseURL 赋值了
       }
     }
   }

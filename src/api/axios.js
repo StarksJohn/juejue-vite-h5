@@ -10,15 +10,15 @@ import { Toast } from 'zarm'
  * MODE 是一个环境变量，通过 Vite 构建的项目中，环境变量在项目中，可以通过 import.meta.env.MODE 获取，环境变量的作用就是判断当前代码运行在开发环境还是生产环境。
  * @type {string}
  */
-const MODE = import.meta.env.MODE
-export const baseURL = MODE === 'development' ? 'https://che.medi-plus.com.cn' : ''
+// const MODE = import.meta.env.MODE
+// export const baseURL = MODE === 'development' ? '/baseURL' : '/baseURL'//
 
 /**
  * baseURL 是 axios 的配置项，它的作用就是设置请求的基础路径，后续我们会在项目实战中有所体现。配置基础路径的好处就是，当请求地址修改的时候，可以在此统一配置。
- * 用 /api 这样的请求地址。其实它就是为了 代理请求 而配置的。
+ * 在 vite.config.js 里设置了代理请求 proxy, 会把 /baseURL 转成 真正的 域名 https://che.medi-plus.com.cn/ ,为了 跨域携带 cookie
  * @type {string}
  */
-axios.defaults.baseURL = baseURL
+axios.defaults.baseURL = '/baseURL'
 /**
  * https://www.ruanyifeng.com/blog/2016/04/cors.html
  * 对所有 axios 请求做处理,是否让请求中携带 cookie

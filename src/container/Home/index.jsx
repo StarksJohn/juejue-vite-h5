@@ -7,7 +7,7 @@ import PopupAddBill from '@/components/PopupAddBill'
 import BillItem from '@/components/BillItem'
 import Empty from '@/components/Empty'
 import CustomIcon from '@/components/CustomIcon'
-import { get, REFRESH_STATE, LOAD_STATE } from '@/api'
+import { get, REFRESH_STATE, LOAD_STATE, urls } from '@/api'
 import s from './style.module.less'
 import { mathTools } from '@/tools'
 import cx from 'classnames'
@@ -50,7 +50,7 @@ const Home = () => {
   useEffect(() => {
     console.log('Home.jsx componentDidMount')
 
-    getBillList() // 初始化
+    getBillList().then() // 初始化
 
     // componentWillUnmount
     return () => {
@@ -61,32 +61,19 @@ const Home = () => {
   const getBillList = async () => {
     // const { data } = await get(`/api/bill/list?date=${currentTime}&type_id=${currentSelect.id || 'all'}&page=${page}&page_size=5`)
     // 下拉刷新，重制数据
-    // if (page === 1) {
-    //   setList(data.list)
-    // } else {
-    //   setList(list.concat(data.list))
-    // }
-    const { data } = await get('/api/polls')
+    const { data } = await get(urls.polls)
+    console.log('Home getBillList data=', data)
+    if (page === 1) {
+      setList(data)
+    } else {
+      setList(list.concat(data))
+    }
     // setTotalExpense(data.totalExpense.toFixed(2))
     // setTotalIncome(data.totalIncome.toFixed(2))
     // setTotalPage(data.totalPage)
     // 上滑加载状态
     setLoading(LOAD_STATE.success)
     setRefreshing(REFRESH_STATE.success)
-
-    // fetch('https://che.medi-plus.com.cn/api/polls', { credentials: 'include' })
-    //   .then(res => res.json())
-    //   .then(
-    //     (result) => {
-    //       console.log('fetch result=', result)
-    //     },
-    //     // 注意：需要在此处处理错误
-    //     // 而不是使用 catch() 去捕获错误
-    //     // 因为使用 catch 去捕获异常会掩盖掉组件本身可能产生的 bug
-    //     (error) => {
-    //       console.log('fetch error=', error)
-    //     }
-    //   )
   }
 
   // 请求列表数据

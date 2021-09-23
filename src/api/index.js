@@ -1,15 +1,16 @@
-import axios, { baseURL } from './axios'
+import axios from './axios'
 import { baseUrl } from '@/config'
+import urls from './urls'
 const MODE = import.meta.env.MODE // 环境变量
 
 export const get = axios.get
 export const post = axios.post
 export {
-  baseURL
+  urls
 }
 
 /**
- *  import { get, typeMap ,baseURL} from '@/api'
+ *  import { get,post, typeMap ,urls} from '@/api'
  */
 export const typeMap = {
   1: {
