@@ -18,7 +18,7 @@ export const baseURL = MODE === 'development' ? '/baseURL' : ''
  * 用 /api 这样的请求地址。其实它就是为了 代理请求 而配置的。
  * @type {string}
  */
-axios.defaults.baseURL = baseURL
+// axios.defaults.baseURL = baseURL
 /**
  * https://www.ruanyifeng.com/blog/2016/04/cors.html
  * 对所有 axios 请求做处理,是否让请求中携带 cookie

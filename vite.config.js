@@ -3,6 +3,8 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 import styleImport from 'vite-plugin-style-import'
 import path from 'path'
 
+const baseURL = 'https://che.medi-plus.com.cn/'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -49,5 +51,13 @@ export default defineConfig({
     //     rewrite: path => path.replace(/^\/baseURL/, '') // 将 /baseURL 重写为空
     //   }
     // }
+    proxy: {
+      '/api': {
+        // 当遇到 /baseURL 路径时，将其转换成 target 的值
+        target: baseURL,
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '') // 将 /api 重写为空
+      }
+    }
   }
 })

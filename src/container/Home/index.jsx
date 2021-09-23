@@ -66,7 +66,7 @@ const Home = () => {
     // } else {
     //   setList(list.concat(data.list))
     // }
-    // const { data } = await get('/api/polls')
+    const { data } = await get('/api/polls')
     // setTotalExpense(data.totalExpense.toFixed(2))
     // setTotalIncome(data.totalIncome.toFixed(2))
     // setTotalPage(data.totalPage)
@@ -74,19 +74,19 @@ const Home = () => {
     setLoading(LOAD_STATE.success)
     setRefreshing(REFRESH_STATE.success)
 
-    fetch('https://che.medi-plus.com.cn/api/polls', { credentials: 'include' })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log('fetch result=', result)
-        },
-        // 注意：需要在此处处理错误
-        // 而不是使用 catch() 去捕获错误
-        // 因为使用 catch 去捕获异常会掩盖掉组件本身可能产生的 bug
-        (error) => {
-          console.log('fetch error=', error)
-        }
-      )
+    // fetch('https://che.medi-plus.com.cn/api/polls', { credentials: 'include' })
+    //   .then(res => res.json())
+    //   .then(
+    //     (result) => {
+    //       console.log('fetch result=', result)
+    //     },
+    //     // 注意：需要在此处处理错误
+    //     // 而不是使用 catch() 去捕获错误
+    //     // 因为使用 catch 去捕获异常会掩盖掉组件本身可能产生的 bug
+    //     (error) => {
+    //       console.log('fetch error=', error)
+    //     }
+    //   )
   }
 
   // 请求列表数据
