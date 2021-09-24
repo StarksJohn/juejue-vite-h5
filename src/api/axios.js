@@ -79,7 +79,7 @@ axios.interceptors.response.use(res => {
     // }
     return Promise.reject('status !== 200')
   }
-  return { data: res.data }
+  return res.data
 }, (error) => {
   console.log('axios.js response error=', error)
   // eslint-disable-next-line prefer-promise-reject-errors

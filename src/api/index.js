@@ -1,12 +1,27 @@
 import axios from './axios'
 import { baseUrl } from '@/config'
 import urls from './urls'
-const MODE = import.meta.env.MODE // 环境变量
+import { tool } from '@/tools'
 
+const MODE = import.meta.env.MODE // 环境变量
 export const get = axios.get
 export const post = axios.post
 export {
   urls
+}
+
+export const getUserInfo = async () => {
+  // const { data } = await get(urls.userInfo)
+  const [err, data] = await tool.to(get(urls.userInfo))
+  console.log('api getUserInfo=', data, ' err=', err)
+  return JSON.stringify(data) === '{}' ? Promise.reject(Error('无数据')) : Promise.resolve(data)
+}
+
+export const postUserInfo = async (payload) => {
+  const p = { ...{ name: '', sex: '男', birthday: 'xxxx-xx-xx', height: 170, weight: 70, nationality: '汉族', marrital: '在婚', education: '本科', industry: '', familyMemberCount: 0, familyIncome: '5到10万元', local: '否' }, ...payload }
+  console.log('api postUserInfo p=', p)
+  // const { data } = await post(urls.userInfo, p)
+  const [err, data] = await tool.to(post(urls.userInfo, p))
 }
 
 /**

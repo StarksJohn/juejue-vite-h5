@@ -6,11 +6,12 @@ import PopupDate from '@/components/PopupDate'
 import PopupAddBill from '@/components/PopupAddBill'
 import Empty from '@/components/Empty'
 import CustomIcon, { IconFont } from '@/components/CustomIcon'
-import { get, REFRESH_STATE, LOAD_STATE, urls } from '@/api'
+import { get, REFRESH_STATE, LOAD_STATE, urls, getUserInfo } from '@/api'
 import s from './style.module.less'
 import cx from 'classnames'
 import { useHistory } from 'react-router-dom'
 import routes from '@/router'
+import { tool } from '@/tools'
 
 const Home = () => {
   const history = useHistory()
@@ -47,11 +48,19 @@ const Home = () => {
   const [totalPage, setTotalPage] = useState(0) // 分页总数
   const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal) // 下拉刷新状态
   const [loading, setLoading] = useState(LOAD_STATE.normal) // 上拉加载状态
+  const [userInfo, setUserInfo] = useState(null)
 
   useEffect(() => {
     console.log('Home.jsx componentDidMount')
 
     getBillList().then() // 初始化
+
+    getUserInfo().then((res) => {
+      console.log('Home getUserInfo res=', res)
+      setUserInfo(res)
+    }).catch((e) => {
+      console.log('Home getUserInfo e=', e)
+    })//
 
     // componentWillUnmount
     return () => {
@@ -60,10 +69,9 @@ const Home = () => {
   }, [page, currentSelect, currentTime])
 
   const getBillList = async () => {
-    // const { data } = await get(`/api/bill/list?date=${currentTime}&type_id=${currentSelect.id || 'all'}&page=${page}&page_size=5`)
     // 下拉刷新，重制数据
-    const { data } = await get(urls.polls)
-    console.log('Home getBillList data=', data)
+    const [err, data] = await tool.to(get(urls.polls))
+    console.log('Home getBillList data=', data, ' err=', err)
     if (page === 1) {
       setList(data)
     } else {
@@ -153,7 +161,7 @@ const Home = () => {
               }, index) => {
                 return <div key={index} className={s.cell} onClick={(e) => {
                   console.log('Home cell onClick e=', e, ' name=', name)
-                  history.push(routes.userinfo.path)
+                  !userInfo && history.push(routes.userinfo.path)
                 }}>
                     <div className={s.img}></div>
                     <div className={s.midView}>
