@@ -83,7 +83,7 @@ const Home = () => {
       setPage(1)
     } else {
       getBillList()
-    };
+    }
   }
 
   const loadData = () => {
@@ -128,59 +128,62 @@ const Home = () => {
       {
         list.length
           ? <Pull
-          animationDuration={200}
-          stayTime={400}
-          refresh={{
-            state: refreshing,
-            handler: refreshData
-          }}
-          load={{
-            state: loading,
-            distance: 200,
-            handler: loadData
-          }}
-        >
-           {
-            list.map(({
-              completed = false,
-              link = '',
-              name = '',
-              notes = '',
-              order = 0,
-              type = '',
-              _id = ''
-
-            }, index) => {
-              return index === 0 && <div key={index} className={s.cell}>
-                 <div className={s.img}></div>
-                 <div className={s.midView}>
-                   {/* title */}
-                   <div className={cx({ [s.titleS]: completed, [s.titleW]: !completed })}
-                   >
-                     {name}
-                   </div>
-                   {/* text */}
-                   <div className={cx({ [s.textS]: completed, [s.textW]: !completed })}
-                   >
-                     {notes}
-                   </div>
-                 </div>
-                 {completed && <div className={s.doneView}>
-                   <div className={s.doneText}>已完成
-                       <IconFont iconClass={s.doneIcon} type={'tianjia'} />
-                   </div>
-                 </div>}
-                 <div className={s.divLine}></div>
-              </div>
+            animationDuration={200}
+            stayTime={400}
+            refresh={{
+              state: refreshing,
+              handler: refreshData
+            }}
+            load={{
+              state: loading,
+              distance: 200,
+              handler: loadData
+            }}
+          >
+            {
+              list.map(({
+                completed = false,
+                link = '',
+                name = '',
+                notes = '',
+                order = 0,
+                type = '',
+                _id = ''
+              }, index) => {
+                return <div key={index} className={s.cell} onClick={(e) => {
+                  console.log('Home cell onClick e=', e, ' name=', name)
+                }}>
+                    <div className={s.img}></div>
+                    <div className={s.midView}>
+                      {/* title */}
+                      <div className={cx({ [s.titleS]: completed, [s.titleW]: !completed })}
+                      >
+                        {name}
+                      </div>
+                      {/* text */}
+                      <div className={cx({ [s.textS]: completed, [s.textW]: !completed })}
+                      >
+                        {notes}
+                      </div>
+                    </div>
+                     {completed && <div className={s.doneView}>
+                      <div className={s.doneText}>已完成
+                         <IconFont
+                          iconClass={s.doneIcon}
+                          type={'icon-done'} />
+                      </div>
+                     </div>}
+                     <div className={s.divLine}></div>
+                  </div>
+              }
+              )
             }
-            )
-           }
 
-        </Pull>
+          </Pull>
           : <Empty />
       }
     </div>
-     {/* <div className={s.add} onClick={addToggle}><CustomIcon type='tianjia' /></div> */}
+    {/* <div className={s.add} onClick={addToggle}><CustomIcon type='tianjia' /></div> */}
     <PopupType ref={typeRef} onSelect={select} />
     <PopupDate ref={monthRef} mode="month" onSelect={selectMonth} />
     <PopupAddBill ref={addRef} onReload={refreshData} />

@@ -20,6 +20,8 @@ IconFont.propTypes = {
  */
 function IconFont ({ iconClass, type }, parentRef) {
   console.log('CustomIcon iconClass=', iconClass)
+  console.log('CustomIcon type=', type)
+
   /**
    * componentDidMount && componentWillUnmount
    */
@@ -36,7 +38,7 @@ function IconFont ({ iconClass, type }, parentRef) {
   /**
    * Methods of child components that can be directly called by the parent component
    */
-  useImperativeHandle(parentRef, () => ({}), [])
+  // useImperativeHandle(parentRef, () => ({}), [])
 
   /*
   componentDidUpdate
@@ -45,7 +47,7 @@ function IconFont ({ iconClass, type }, parentRef) {
   })
 
   // render
-  return <div className={iconClass}><CustomIcon type /></div>
+  return <div className={iconClass}><CustomIcon type={type} /></div>
 }
 
 export default memo(IconFont)

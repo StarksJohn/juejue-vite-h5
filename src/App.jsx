@@ -61,7 +61,7 @@ const App = () => {
           </Route>)
         }
       </Switch>
-      <NavBar showNav={showNav} />
+      {/* <NavBar showNav={showNav} /> */}
     </>
   </ConfigProvider>
 }

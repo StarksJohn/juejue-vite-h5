@@ -39,10 +39,11 @@
     }
 
     .cell :extend(.flex-row) {
+      position: relative;
       justify-content: space-between;
       width: @page-w;
       height: 100px;
-      background-color: green;
+      background-color: white;
       padding-left: @paddingLeft;
       padding-right: @paddingLeft;
 
@@ -73,7 +74,7 @@
         .title-S :extend(.text,.textOneLine) {
           color: black;
           font-size: 18px;
-          max-width: calc(100vw - 160px);
+          width: calc(100vw - 170px);
           //background-color: yellow;
         }
 
@@ -93,21 +94,22 @@
       }
 
       .doneView :extend(.flex-row) {
-        width: 60px;
+        width: 65px;
         height: 100%;
         //background-color: blue;
-        justify-content: center;
+        //justify-content: center;
 
         .doneText :extend(.text) {
           color: #56B938;
-          font-size:12px;
+          font-size:14px;
         }
         .doneIcon :extend(.flex-center){
-          width: 15px;
-          height: 15px;
-          border-radius:15px;
+          width: 5px;
+          height: 5px;
+          border-radius:5px;
           //background-color:orange;
-          margin-left: 6px;
+          margin-left: 14px;
+          margin-top: 5px;
         }
       }
 
