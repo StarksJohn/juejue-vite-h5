@@ -4,15 +4,16 @@ import dayjs from 'dayjs'
 import PopupType from '@/components/PopupType'
 import PopupDate from '@/components/PopupDate'
 import PopupAddBill from '@/components/PopupAddBill'
-import BillItem from '@/components/BillItem'
 import Empty from '@/components/Empty'
 import CustomIcon, { IconFont } from '@/components/CustomIcon'
 import { get, REFRESH_STATE, LOAD_STATE, urls } from '@/api'
 import s from './style.module.less'
-import { mathTools } from '@/tools'
 import cx from 'classnames'
+import { useHistory } from 'react-router-dom'
+import routes from '@/router'
 
 const Home = () => {
+  const history = useHistory()
   const typeRef = useRef() // 账单类型 ref
   const monthRef = useRef() // 月份筛选 ref
   const addRef = useRef() // 添加账单 ref
@@ -152,6 +153,7 @@ const Home = () => {
               }, index) => {
                 return <div key={index} className={s.cell} onClick={(e) => {
                   console.log('Home cell onClick e=', e, ' name=', name)
+                  history.push(routes.userinfo.path)
                 }}>
                     <div className={s.img}></div>
                     <div className={s.midView}>
@@ -178,7 +180,6 @@ const Home = () => {
               }
               )
             }
-
           </Pull>
           : <Empty />
       }
