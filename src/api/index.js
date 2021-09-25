@@ -2,6 +2,7 @@ import axios from './axios'
 import { baseUrl } from '@/config'
 import urls from './urls'
 import { tool } from '@/tools'
+import { Toast } from 'zarm'
 
 const MODE = import.meta.env.MODE // 环境变量
 export const get = axios.get
@@ -22,6 +23,9 @@ export const postUserInfo = async (payload) => {
   console.log('api postUserInfo p=', p)
   // const { data } = await post(urls.userInfo, p)
   const [err, data] = await tool.to(post(urls.userInfo, p))
+  console.log('api postUserInfo data=', data)
+  Toast.show('修改成功')
+  return JSON.stringify(data) === '{}' ? Promise.reject(Error('无数据')) : Promise.resolve(data)
 }
 
 /**

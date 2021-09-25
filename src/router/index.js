@@ -7,6 +7,7 @@ import Detail from '@/container/Detail'
 import Account from '@/container/Account'
 import About from '@/container/About'
 import UserInfo from '@/container/UserInfo'
+import QuestionPage from '@/container/QuestionPage/QuestionPage'
 
 /**
  * import routes from '@/router'
@@ -46,7 +47,12 @@ const routes = {
   userinfo: {
     path: '/userinfo',
     component: UserInfo
+  },
+  questionPage: {
+    path: '/questionPage',
+    component: QuestionPage
   }
+
 }
 
 export default routes

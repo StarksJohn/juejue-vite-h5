@@ -1,6 +1,6 @@
-import React from 'react';
-import { Cell, Input, Button, Toast } from 'zarm';
-import { createForm  } from 'rc-form';
+import React from 'react'
+import { Cell, Input, Button, Toast } from 'zarm'
+import { createForm } from 'rc-form'
 import Header from '@/components/Header'
 import { post } from '@/api'
 
@@ -8,7 +8,7 @@ import s from './style.module.less'
 
 const Account = (props) => {
   // Account 通过 createForm 高阶组件包裹之后，可以在 props 中获取到 form 属性
-  const { getFieldProps, getFieldError } = props.form;
+  const { getFieldProps, getFieldError } = props.form
 
   // 提交修改方法
   const submit = () => {
@@ -18,7 +18,7 @@ const Account = (props) => {
       if (!error) {
         console.log(value)
         if (value.newpass != value.newpass2) {
-          Toast.show('新密码输入不一致');
+          Toast.show('新密码输入不一致')
           return
         }
         await post('/api/user/modify_pass', {
@@ -28,7 +28,7 @@ const Account = (props) => {
         })
         Toast.show('修改成功')
       }
-    });
+    })
   }
 
   return <>
@@ -63,7 +63,6 @@ const Account = (props) => {
       <Button className={s.btn} block theme="primary" onClick={submit}>提交</Button>
     </div>
   </>
-};
+}
 
-export default createForm()(Account);
-
+export default createForm()(Account)

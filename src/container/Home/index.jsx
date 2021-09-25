@@ -24,26 +24,6 @@ const Home = () => {
   const [currentTime, setCurrentTime] = useState(dayjs().format('YYYY-MM')) // 当前筛选时间
   const [page, setPage] = useState(1) // 分页
   const [list, setList] = useState([
-    {
-      name: '问卷一',
-      notes: '一个很厉害的问卷',
-      type: 'link',
-      link: 'https:\/\/www.baidu.com',
-      completed: false// mathTools.randomNums(0, 1) === 1
-    }
-    // {
-    //   name: '问卷二',
-    //   notes: '一个很厉害的问卷',
-    //   type: 'link',
-    //   link: 'https:\/\/www.baidu.com'
-    // },
-    // {
-    //   name: '问卷三',
-    //   notes: '这个是一个表单问卷',
-    //   type: 'form',
-    //   id: 1,
-    //   completed: true
-    // }
   ]) // 账单列表
   const [totalPage, setTotalPage] = useState(0) // 分页总数
   const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal) // 下拉刷新状态
@@ -77,9 +57,6 @@ const Home = () => {
     } else {
       setList(list.concat(data))
     }
-    // setTotalExpense(data.totalExpense.toFixed(2))
-    // setTotalIncome(data.totalIncome.toFixed(2))
-    // setTotalPage(data.totalPage)
     // 上滑加载状态
     setLoading(LOAD_STATE.success)
     setRefreshing(REFRESH_STATE.success)
@@ -102,35 +79,15 @@ const Home = () => {
     }
   }
 
-  // 添加账单弹窗
-  const toggle = () => {
-    typeRef.current && typeRef.current.show()
-  }
-  // 选择月份弹窗
-  const monthToggle = () => {
-    monthRef.current && monthRef.current.show()
-  }
-  // 添加账单弹窗
-  const addToggle = () => {
-    addRef.current && addRef.current.show()
-  }
-
-  // 筛选类型
-  const select = (item) => {
-    setRefreshing(REFRESH_STATE.loading)
-    setPage(1)
-    setCurrentSelect(item)
-  }
-  // 筛选月份
-  const selectMonth = (item) => {
-    setRefreshing(REFRESH_STATE.loading)
-    setPage(1)
-    setCurrentTime(item)
-  }
-
   return <div className={s.home}>
-    <div className={s.header}>
+    <div className={s.header} >
       请选择你要填写的问卷
+      <IconFont
+        iconClass={s.infoIcon}
+        type={'icon-gerenxinxi'} onClick={(e) => {
+          console.log('Home 个人信息按钮 onClick e=', e)
+          history.push(routes.userinfo.path)
+        }}/>
       <div className={s.divLine}></div>
     </div>
     <div className={s.contentWrap}>
@@ -162,6 +119,7 @@ const Home = () => {
                 return <div key={index} className={s.cell} onClick={(e) => {
                   console.log('Home cell onClick e=', e, ' name=', name)
                   !userInfo && history.push(routes.userinfo.path)
+                  userInfo && history.push(routes.questionPage.path)
                 }}>
                     <div className={s.img}></div>
                     <div className={s.midView}>
@@ -192,10 +150,6 @@ const Home = () => {
           : <Empty />
       }
     </div>
-    {/* <div className={s.add} onClick={addToggle}><CustomIcon type='tianjia' /></div> */}
-    <PopupType ref={typeRef} onSelect={select} />
-    <PopupDate ref={monthRef} mode="month" onSelect={selectMonth} />
-    <PopupAddBill ref={addRef} onReload={refreshData} />
   </div>
 }
 

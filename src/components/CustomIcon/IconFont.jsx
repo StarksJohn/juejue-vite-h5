@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState, useMemo, memo, useCallback, forward
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import CustomIcon from '@/components/CustomIcon'
+import s from './style.module.less'
 
 IconFont.propTypes = {
   iconClass: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  onClick: PropTypes.func
 }
 //
 // CustomIcon.defaultProps = {}
@@ -18,7 +20,9 @@ IconFont.propTypes = {
  * @returns {*}
  * @constructor
  */
-function IconFont ({ iconClass, type }, parentRef) {
+function IconFont ({
+  iconClass, type, onClick
+}, parentRef) {
   console.log('CustomIcon iconClass=', iconClass)
   console.log('CustomIcon type=', type)
 
@@ -47,7 +51,13 @@ function IconFont ({ iconClass, type }, parentRef) {
   })
 
   // render
-  return <div className={iconClass}><CustomIcon type={type} /></div>
+  return <div className={iconClass}>
+    <CustomIcon type={type} />
+    {onClick && <div className={s.onClickDiv} onClick={(e) => {
+      console.log('IconFont.jsx onclick e=', e)
+      onClick(e)
+    }}></div>}
+  </div>
 }
 
 export default memo(IconFont)

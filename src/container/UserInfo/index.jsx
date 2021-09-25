@@ -6,7 +6,8 @@ import axios from 'axios'
 import { get, post, imgUrlTrans, postUserInfo } from '@/api'
 import { baseUrl } from '@/config'
 import s from './style.module.less'
-import { dateTools, stringTools } from '@/tools'
+import { dateTools, stringTools, tool } from '@/tools'
+import urls from '@/api/urls'
 
 const init_birthday = {
   visible: false,
@@ -142,14 +143,10 @@ const UserInfo = () => {
   }
 
   const save = async () => {
-    // const { data } = await post('/api/user/edit_userinfo', {
-    //   signature,
-    //   avatar
-    // })
-
-    // Toast.show('修改成功')
-    // history.goBack()
-    postUserInfo({ name, sex, birthday: birthday.showValue, height, weight, nationality: !stringTools.isNull(nationalityByInput) ? nationalityByInput : initnationalityData[nationality.value].label, marrital: marriageInitData[marriage.value].label, education: educationInitData[education.value].label, industry: !stringTools.isNull(jobByInput) ? jobByInput : initJobData[job.value].label, familyMemberCount: population, familyIncome: initFamilyIncomeData[familyIncome.value].label, local: registered }).then()
+    const [err, data] = await tool.to(postUserInfo({ name, sex, birthday: birthday.showValue, height, weight, nationality: !stringTools.isNull(nationalityByInput) ? nationalityByInput : initnationalityData[nationality.value].label, marrital: marriageInitData[marriage.value].label, education: educationInitData[education.value].label, industry: !stringTools.isNull(jobByInput) ? jobByInput : initJobData[job.value].label, familyMemberCount: population, familyIncome: initFamilyIncomeData[familyIncome.value].label, local: registered }))
+    if (data) {
+      history.goBack()
+    }
   }
 
   return <>
