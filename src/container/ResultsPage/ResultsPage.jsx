@@ -27,7 +27,7 @@ const ResultsPage = props => {
   return <div className={s.page}>
     <Header title="问卷结果" />
     <div className={s.charts}>
-       {/* <RadarChart></RadarChart> */}
+        <RadarChart></RadarChart>
     </div>
   </div>
 }
