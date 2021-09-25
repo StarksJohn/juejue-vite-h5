@@ -86,7 +86,7 @@ const Home = () => {
         iconClass={s.infoIcon}
         type={'icon-gerenxinxi'} onClick={(e) => {
           console.log('Home 个人信息按钮 onClick e=', e)
-          history.push(routes.userinfo.path)
+          history.push(routes.resultsPage.path)
         }}/>
       <div className={s.divLine}></div>
     </div>

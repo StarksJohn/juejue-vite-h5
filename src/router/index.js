@@ -8,6 +8,7 @@ import Account from '@/container/Account'
 import About from '@/container/About'
 import UserInfo from '@/container/UserInfo'
 import QuestionPage from '@/container/QuestionPage/QuestionPage'
+import ResultsPage from '@/container/ResultsPage/ResultsPage'
 
 /**
  * import routes from '@/router'
@@ -51,6 +52,10 @@ const routes = {
   questionPage: {
     path: '/questionPage',
     component: QuestionPage
+  },
+  resultsPage: {
+    path: '/resultsPage',
+    component: ResultsPage
   }
 
 }
