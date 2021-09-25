@@ -3,9 +3,49 @@
 
 .page :extend(.page) {
   align-items: center;
+  max-width: @page-w;
+
   .charts {
     width: 300px;
-    height:300px;
+    height: 300px;
     margin-top: 20px;
   }
+
+  .tabsDiv{
+    width: @page-w;
+    overflow: hidden;
+    display: block !important;
+    background-color:red;
+
+    .content :extend(.text){
+      display: flex;
+      flex: 1;
+      background-color:blue;
+      height: 100px;
+    }
+    //.za-tabs__header:after {
+    //  font-size: 6px;
+    //}
+    //.tabs-page .za-tabs + .za-tabs {
+    //  margin-top: 10px
+    //}
+    //
+    //.tabs-page .content {
+    //  display: flex;
+    //  align-items: center;
+    //  justify-content: center;
+    //  padding: 10px;
+    //  height: 150px
+    //}
+    //
+    //.tabs-page .za-tabs--vertical .content {
+    //  height: 100%
+    //}
+    //
+    //.tabs-page .za-tabs--vertical.custom-height {
+    //  height: 200px
+    //}
+  }
 }
+
+

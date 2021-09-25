@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.13.17",
+    "antd-mobile": "^5.0.0-beta.11",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.4",
