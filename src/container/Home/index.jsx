@@ -51,6 +51,9 @@ const Home = () => {
   const getBillList = async () => {
     // 下拉刷新，重制数据
     const [err, data] = await tool.to(get(urls.polls))
+    // for (let i = 0; i < data.length; i++) {
+    //   data[i].completed = false
+    // }
     console.log('Home getBillList data=', data, ' err=', err)
     if (page === 1) {
       setList(data)
@@ -86,7 +89,7 @@ const Home = () => {
         iconClass={s.infoIcon}
         type={'icon-gerenxinxi'} onClick={(e) => {
           console.log('Home 个人信息按钮 onClick e=', e)
-          history.push(routes.resultsPage.path)
+          history.push(routes.userinfo.path)
         }}/>
       <div className={s.divLine}></div>
     </div>
@@ -114,14 +117,15 @@ const Home = () => {
                 notes = '',
                 order = 0,
                 type = '',
-                _id = ''
+                _id = '',
+                questions = []
               }, index) => {
                 return <div key={index} className={s.cell} onClick={(e) => {
                   console.log('Home cell onClick e=', e, ' name=', name)
-                  !userInfo && history.push(routes.userinfo.path)
-                  userInfo && history.push(routes.questionPage.path)
+                  !completed && history.push(`${routes.questionPage.path}?questions=${JSON.stringify(questions)}`)
+                  completed && history.push(routes.resultsPage.path)
                 }}>
-                    <div className={s.img}></div>
+                    {/* <div className={s.img}></div> */}
                     <div className={s.midView}>
                       {/* title */}
                       <div className={cx({ [s.titleS]: completed, [s.titleW]: !completed })}
@@ -134,13 +138,13 @@ const Home = () => {
                         {notes}
                       </div>
                     </div>
-                     {completed && <div className={s.doneView}>
+                      {completed && <div className={s.doneView}>
                       <div className={s.doneText}>已完成
                          <IconFont
                           iconClass={s.doneIcon}
                           type={'icon-done'} />
                       </div>
-                     </div>}
+                      </div>}
                      <div className={s.divLine}></div>
                   </div>
               }
@@ -149,7 +153,12 @@ const Home = () => {
           </Pull>
           : <Empty />
       }
+      {userInfo && <div className={s.qrDiv}>
+        <img className={s.qr} src={`/api/qr/${userInfo.userInfo.userIdentity}`} alt="" />
+      </div>}
+
     </div>
+
   </div>
 }
 

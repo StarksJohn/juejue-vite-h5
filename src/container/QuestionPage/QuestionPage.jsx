@@ -2,13 +2,17 @@ import React, { useEffect, useRef, useState, useMemo, useCallback, memo } from '
 import { useSelector, useDispatch } from 'react-redux'
 import Header from '@/components/Header'
 import s from './style.module.less'
-import { useHistory } from 'react-router-dom'
-import { Collapse } from 'zarm'
+import { useHistory, useLocation } from 'react-router-dom'
+import { Collapse, Cell, Radio } from 'zarm'
+import qs from 'query-string'
 
 const QuestionPage = props => {
   // const {} = props
   const history = useHistory()
   const [activeKey, setActiveKey] = useState('1')
+  const location = useLocation()
+  const { questions } = qs.parse(location.search)
+  console.log('QuestionPage.jsx questions=', JSON.parse(questions))
 
   /**
    * componentDidMount && componentWillUnmount
@@ -42,6 +46,24 @@ const QuestionPage = props => {
         体质分类：中医常见体质分九种，一种为平和，八种为偏颇，如：气虚质、阳虚质、阴虚质、痰湿质、湿热质、血瘀质、气郁质、特禀质。
       </Collapse.Item>
     </Collapse>
+     <Cell className={s.cell}>
+      <Radio.Group>
+        <div>发无法无法服务服务</div>
+        <Radio value="0">选项一大钱大钱我</Radio>
+        <Radio value="1">选项二带我去的</Radio>
+        <Radio value="2">选项三授权定位群</Radio>
+        <Radio value="2">选项三多少钱多少钱无所多群无</Radio>
+      </Radio.Group>
+     </Cell>
+    <Cell className={s.cell}>
+      <Radio.Group>
+        <div>发无法无法服务服务</div>
+        <Radio value="0">选项一大钱大钱我</Radio>
+        <Radio value="1">选项二带我去的</Radio>
+        <Radio value="2">选项三授权定位群</Radio>
+        <Radio value="2">选项三多少钱多少钱无所多群无</Radio>
+      </Radio.Group>
+    </Cell>
   </div>
 }
 

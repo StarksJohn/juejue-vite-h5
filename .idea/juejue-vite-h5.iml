@@ -59,6 +59,5 @@
     <orderEntry type="library" name="vue" level="application" />
     <orderEntry type="library" name="vue-resource" level="application" />
     <orderEntry type="library" name="echarts" level="application" />
-    <orderEntry type="library" name="lodash" level="application" />
   </component>
 </module>
