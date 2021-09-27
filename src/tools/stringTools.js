@@ -41,7 +41,7 @@ export function isNull (str) {
     console.log('stringTools.js ', str, ' 已转成 字符串类型')
   }
   return (
-    !str ||
+    !str || str == undefined ||
     str.length === 0 ||
     str === '' ||
     str.replace(/(^s*)|(s*$)/g, '').length === 0 ||

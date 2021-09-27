@@ -143,6 +143,7 @@ const UserInfo = () => {
   }
 
   const save = async () => {
+    localStorage.setItem('sex', sex === '男' ? 'm' : 'f')
     const [err, data] = await tool.to(postUserInfo({ name, sex, birthday: birthday.showValue, height, weight, nationality: !stringTools.isNull(nationalityByInput) ? nationalityByInput : initnationalityData[nationality.value].label, marrital: marriageInitData[marriage.value].label, education: educationInitData[education.value].label, industry: !stringTools.isNull(jobByInput) ? jobByInput : initJobData[job.value].label, familyMemberCount: population, familyIncome: initFamilyIncomeData[familyIncome.value].label, local: registered }))
     if (data) {
       history.goBack()
