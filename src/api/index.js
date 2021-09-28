@@ -29,6 +29,21 @@ export const postUserInfo = async (payload) => {
 }
 
 /**
+ * 提交问卷
+ * @param payload :{
+ *   id:问卷id
+ *   data:{
+ *     questionid: value // questionid: 每道题的_id ; value:每道题的options里的 某个选项的 value (1 | 2| 3 ...)
+ *   }
+ * }
+ */
+export const postPolls = async (payload) => {
+  const [err, data] = await tool.to(post(`${urls.polls}/${payload.id}`, payload.data))
+  console.log('api postPolls data=', data, 'err=', err)
+  return JSON.stringify(data) === '{}' ? Promise.reject(Error('无数据')) : Promise.resolve(data)
+}
+
+/**
  *  import { get,post, typeMap ,urls} from '@/api'
  */
 export const typeMap = {

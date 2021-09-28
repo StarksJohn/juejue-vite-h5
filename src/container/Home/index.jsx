@@ -12,6 +12,7 @@ import cx from 'classnames'
 import { useHistory } from 'react-router-dom'
 import routes from '@/router'
 import { tool } from '@/tools'
+import constant from '@/constant/constant'
 
 const Home = () => {
   const history = useHistory()
@@ -118,12 +119,20 @@ const Home = () => {
                 order = 0,
                 type = '',
                 _id = '',
-                questions = []
+                questions = [],
+                record = {}
               }, index) => {
                 return <div key={index} className={s.cell} onClick={(e) => {
-                  console.log('Home cell onClick e=', e, ' name=', name)
-                  !completed && history.push(`${routes.questionPage.path}?questions=${JSON.stringify(questions)}`)
-                  completed && history.push(routes.resultsPage.path)
+                  console.log('Home cell onClick e=', e, ' name=', name, ' userInfo=', userInfo, ' completed=', completed)
+                  // if (constant.fakeData) {
+                  //   history.push(`${routes.questionPage.path}?questions=${JSON.stringify(questions)}`)
+                  // } else
+                  if (!userInfo) {
+                    history.push(`${routes.userinfo.path}?questions=${JSON.stringify(questions)}`)
+                  } else {
+                    !completed && history.push(`${routes.questionPage.path}?questions=${JSON.stringify(questions)}`)
+                    completed && history.push(`${routes.resultsPage.path}?data=${JSON.stringify(record.result)}`)
+                  }
                 }}>
                     {/* <div className={s.img}></div> */}
                     <div className={s.midView}>

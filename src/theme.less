@@ -6,6 +6,8 @@
 @page-w:100vw;
 @app-primaryColor:#56B938;//app主题色
 
+
+
 .page {
   display: flex;
   flex-direction: column;
@@ -78,4 +80,12 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+/**
+ 让 <div> 里的 文本 换行 https://www.thinbug.com/q/35351706
+ 前提是文本里加 \n
+ */
+.preLine{
+  white-space: pre-line;
 }
