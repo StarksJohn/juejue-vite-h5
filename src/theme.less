@@ -45,7 +45,10 @@
   font-size: 14px;
 }
 
-//div 或 p 元素 一行显示,显示不下显示 ...
+/**
+div 或 p 元素 一行显示,显示不下显示 ...
+此方法可抽成一个 带参数的 mixin 方法,具体看  https://juejin.cn/book/6844733826191589390/section/6844733826283864072  
+ */
 .textOneLine {
   display:-webkit-box;
   -webkit-line-clamp:1;
