@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Button, FilePicker, Input, Toast, Cell, Radio, DatePicker, Slider, Picker } from 'zarm'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import Header from '@/components/Header'
 import axios from 'axios'
 import { get, post, imgUrlTrans, postUserInfo } from '@/api'
@@ -8,6 +8,8 @@ import { baseUrl } from '@/config'
 import s from './style.module.less'
 import { dateTools, stringTools, tool } from '@/tools'
 import urls from '@/api/urls'
+import qs from 'query-string'
+import routes from '@/router'
 
 const init_birthday = {
   visible: false,
@@ -113,6 +115,9 @@ const UserInfo = () => {
   const [nationalityByInput, setNationalityByInput] = useState(null)
   const [job, setJob] = useState(initJobState)
   const [jobByInput, setJobByInput] = useState(null)
+  const location = useLocation()
+  const { questions } = qs.parse(location.search)
+  console.log('UserInfo.jsx questions=', questions ? JSON.parse(questions) : 'no questions')
 
   useEffect(() => {
     // getUserInfo()
@@ -146,7 +151,11 @@ const UserInfo = () => {
     localStorage.setItem('sex', sex === '男' ? 'm' : 'f')
     const [err, data] = await tool.to(postUserInfo({ name, sex, birthday: birthday.showValue, height, weight, nationality: !stringTools.isNull(nationalityByInput) ? nationalityByInput : initnationalityData[nationality.value].label, marrital: marriageInitData[marriage.value].label, education: educationInitData[education.value].label, industry: !stringTools.isNull(jobByInput) ? jobByInput : initJobData[job.value].label, familyMemberCount: population, familyIncome: initFamilyIncomeData[familyIncome.value].label, local: registered }))
     if (data) {
-      history.goBack()
+      if (questions) {
+        history.push(`${routes.questionPage.path}?questions=${questions}`)
+      } else {
+        history.goBack()
+      }
     }
   }
 

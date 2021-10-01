@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 /**
  * https://github.com/hustcc/echarts-for-react
  * Import ECharts.js modules manually to reduce bundle size
@@ -71,31 +71,57 @@ import {
   CanvasRenderer
   // SVGRenderer,
 } from 'echarts/renderers'
+import PropTypes from 'prop-types'
+import constant from '@/constant/constant'
 // Register the required components
 echarts.use(
   [RadarChart, CanvasRenderer]
 )
 
-const Page = () => {
+const _RadarChart = (props) => {
+  const { result } = props
+  /**
+   * result: {
+   *   平和质: {total: 9, qs: Array(8), score: 3.125, status: '否'},
+   *   气虚质: {total: 9, qs: Array(8), score: 3.125, status: '否'}
+   *   ...
+   * }
+   * status: 3种值,「是」是2，「倾向是」是1，「否」是 0
+   */
+  console.log('RadarChart result=', result)
+  const indicator = []
+  for (const _key in result) {
+    // console.log('RadarChart _key=', _key)
+    indicator.push({ name: _key, max: 2 })
+  }
+  console.log('RadarChart indicator=', indicator)
+  const value = []
+  for (const val in Object.values(result)) {
+    // console.log('RadarChart val=', val)
+    const status = Object.values(result)[val].status
+    // console.log('RadarChart status=', status)
+    if (status === '是') {
+      value.push(2)
+    } else if (status === '倾向是') {
+      value.push(1)
+    } else {
+      value.push(0)
+    }
+  }
+  console.log('RadarChart value=', value)
+
   const option = {
     // title: {
     //   text: '基础雷达图'
     // },
-    tooltip: {},
+    // tooltip: {},
     // legend: {
     //   data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
     // },
     radar: {
       // shape: 'circle',
       splitNumber: 2,
-      indicator: [
-        { name: '平和质', max: 2 },
-        { name: '气虚质', max: 2 },
-        { name: '阳虚质', max: 2 },
-        { name: '阴虚质', max: 2 },
-        { name: '痰湿质', max: 2 },
-        { name: '湿热质', max: 2 }
-      ]
+      indicator
     },
     series: [{
       name: 'key',
@@ -103,17 +129,20 @@ const Page = () => {
       // areaStyle: {normal: {}},
       data: [
         {
-          value: [0, 1, 1, 2, 1, 1],
+          value: constant.fakeData ? value : value,
           name: 'key'
         }
       ]
     }]
   }
 
-  let timer
+  // let timer
 
   useEffect(() => {
-    return () => clearTimeout(timer)
+    return () => {
+      console.log('RadarChart componentWillUnmount ')
+      // clearTimeout(timer)
+    }
   })
 
   const loadingOption = {
@@ -136,10 +165,13 @@ const Page = () => {
     notMerge={true}
     lazyUpdate={true}
     // style={{ height: 300 }}
-    onChartReady={onChartReady}
+    // onChartReady={onChartReady}
     loadingOption={loadingOption}
     showLoading={false}
   />
 }
+_RadarChart.propTypes = {
+  result: PropTypes.object.isRequired
+}
 
-export default Page
+export default memo(_RadarChart)

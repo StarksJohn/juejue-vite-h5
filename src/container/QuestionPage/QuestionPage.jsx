@@ -3,25 +3,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import Header from '@/components/Header'
 import s from './style.module.less'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Collapse, Cell, Radio, Pull } from 'zarm'
+import { Collapse, Cell, Radio, Pull, Button, Toast } from 'zarm'
 import qs from 'query-string'
 import routes from '@/router'
 import cx from 'classnames'
 import { IconFont } from '@/components/CustomIcon'
 import Empty from '@/components/Empty'
-import { LOAD_STATE, REFRESH_STATE } from '@/api'
-import { stringTools } from '@/tools'
+import { LOAD_STATE, REFRESH_STATE, postPolls } from '@/api'
+import { stringTools, tool } from '@/tools'
+import constant from '@/constant/constant'
 
 const QuestionPage = props => {
   // const {} = props
   const history = useHistory()
   const [activeKey, setActiveKey] = useState('1')
   const location = useLocation()
-  const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal) // 下拉刷新状态
-  const [loading, setLoading] = useState(LOAD_STATE.normal) // 上拉加载状态
   const [list, setList] = useState([])
-  const { questions } = qs.parse(location.search)
-  console.log('QuestionPage.jsx questions=', JSON.parse(questions))
+  const refSelectedData = useRef({ })
 
   /**
    * componentDidMount && componentWillUnmount
@@ -30,7 +28,8 @@ const QuestionPage = props => {
     /* The async keyword cannot be added to the first parameter https://juejin.im/post/6844903985338400782#heading-27 */
     () => {
       const sex = localStorage.getItem('sex')
-
+      const { questions } = qs.parse(location.search)
+      console.log('QuestionPage.jsx questions=', JSON.parse(questions))
       console.log('QuestionPage componentDidMount,props=', props, ' sex=', sex)
       const arr = []
       for (const arrKey in JSON.parse(questions)) {
@@ -49,6 +48,21 @@ const QuestionPage = props => {
         console.log('QuestionPage componentWillUnmount')
       }
     }, [])
+
+  const submit = async () => {
+    console.log('QuestionPage.jsx submit refSelectedData=', refSelectedData.current)
+    if (Object.keys(refSelectedData.current).length < list.length && !constant.fakeData) {
+      Toast.show('每道题都要选哦')
+      return
+    }
+    const [err, data] = await tool.to(postPolls({
+      id: list[0].poll, data: refSelectedData.current
+    }))
+    if (data) {
+      console.log('QuestionPage.jsx submit data=', data)
+      history.push(`${routes.resultsPage.path}?data=${JSON.stringify(data)}`)
+    }
+  }
 
   // render
   return <div className={s.page}>
@@ -76,26 +90,20 @@ const QuestionPage = props => {
           ? <Pull
             animationDuration={200}
             stayTime={400}
-            refresh={{
-              state: refreshing,
-              handler: null
-            }}
-            load={{
-              state: loading,
-              distance: 200,
-              handler: null
-            }}
           >
             {
-              list.map(({ question, options }, index) => {
+              list.map(({ question, options, _id }, index) => {
                 return (<Cell className={s.cell} key={index}>
-
-                  <Radio.Group>
+                  <Radio.Group onChange={(value) => {
+                  }}>
                      <div className={s.qusTitle}>{index + 1}: {question}</div>
                     {
                         Object.keys(options)?.length && Object.keys(options).map(
                           (value, index, array) => {
-                            return <Radio key={`${question}+${index}`} value={`${question}+${index}`}>{value} </Radio>
+                            return <Radio key={`${question}+${index}`} value={`${question}+${index}`} onChange={(e) => {
+                              console.log('QuestionPage.jsx _id=', _id, ' 的题的 选项onChange=', index + 1)
+                              refSelectedData.current[_id] = index + 1
+                            }}>{value} </Radio>
                           }
                         )
                       }
@@ -108,6 +116,7 @@ const QuestionPage = props => {
           : <Empty />
       }
     </div>
+    {list.length > 0 && <Button disabled={false} onClick={submit} style={{ marginTop: 5 }} block theme="primary">提交</Button>}
   </div>
 }
 

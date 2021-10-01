@@ -1,51 +1,53 @@
 @import "src/theme.less";
 
+//:root {
+//  --adm-color-primary: #a062d4;
+//}
 
 .page :extend(.page) {
   align-items: center;
   max-width: @page-w;
 
   .charts {
-    width: 300px;
+    width: 100%;
     height: 300px;
-    margin-top: 20px;
+    //margin-top: 20px;
+    //background-color:blue;
+    //display: flex;
+    //flex: 1;
   }
 
   .tabsDiv{
     width: @page-w;
     overflow: hidden;
     display: block !important;
-    background-color:red;
+    //margin-top: 10px;
+    //display:flex;
+    //flex: 1;
+    //background-color:red;
 
-    .content :extend(.text){
-      display: flex;
-      flex: 1;
-      background-color:blue;
-      height: 100px;
-    }
-    //.za-tabs__header:after {
-    //  font-size: 6px;
+    //无效
+    //.adm-tabs .adm-tabs-tab-list .adm-tabs-tab-wrapper .adm-tabs-tab .adm-tabs-tab-active ::after {
+    //  color:@app-primaryColor;
     //}
-    //.tabs-page .za-tabs + .za-tabs {
-    //  margin-top: 10px
-    //}
-    //
-    //.tabs-page .content {
-    //  display: flex;
-    //  align-items: center;
-    //  justify-content: center;
-    //  padding: 10px;
-    //  height: 150px
-    //}
-    //
-    //.tabs-page .za-tabs--vertical .content {
-    //  height: 100%
-    //}
-    //
-    //.tabs-page .za-tabs--vertical.custom-height {
-    //  height: 200px
-    //}
+
   }
+
+  .content :extend(.text, .preLine){
+    display: flex;
+    flex: 1;
+    //background-color:blue;
+    padding: @paddingLeft;
+    font-size: 16px;
+    font-weight: 400;
+    color: gray;
+    overflow : auto;//文本超出滚动
+  }
+
 }
+
+
+
+
 
 

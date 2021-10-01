@@ -2,18 +2,30 @@ import React, { useEffect, useRef, useState, useMemo, useCallback, memo } from '
 import { useSelector, useDispatch } from 'react-redux'
 import Header from '@/components/Header'
 import s from './style.module.less'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { RadarChart } from '@/components'
 // import { Tabs } from 'zarm'
 import 'zarm/dist/zarm.css'
 import { Tabs } from 'antd-mobile'
+import qs from 'query-string'
+import constant from '@/constant/constant'
+import { Cell, Pull, Radio } from 'zarm'
 
 const { Panel } = Tabs
 
 const ResultsPage = props => {
   // const {} = props
   const history = useHistory()
-  const [value, setValue] = useState(0)
+  const location = useLocation()
+  const [tabList, setTabList] = useState([])
+  const [tabIndex, setTabIndex] = useState(0)
+  /*
+  data:{
+    平和质: {total: 24, qs: Array(8), score: 50, status: '否'},
+    气虚质: {total: 33, qs: Array(8), score: 78.125, status: '是'},
+    ....
+   */
+  const { data } = qs.parse(location.search)
 
   /**
    * componentDidMount && componentWillUnmount
@@ -22,6 +34,21 @@ const ResultsPage = props => {
     /* The async keyword cannot be added to the first parameter https://juejin.im/post/6844903985338400782#heading-27 */
     () => {
       console.log('ResultsPage componentDidMount,props=', props)
+      console.log('ResultsPage data=', JSON.parse(data))
+      {
+        const _tabList = []
+        for (const val in Object.values(JSON.parse(data))) {
+          const status = Object.values(JSON.parse(data))[val].status
+          console.log('ResultsPage status=', status)
+          if (status !== '否') {
+            _tabList.push({ title: Object.keys(JSON.parse(data))[val], content: tabContent(Object.keys(JSON.parse(data))[val]), status, name: Object.keys(JSON.parse(data))[val], max: 2 })
+          } else if (constant.fakeData) {
+            _tabList.push({ title: Object.keys(JSON.parse(data))[val], content: tabContent(Object.keys(JSON.parse(data))[val]), status, name: Object.keys(JSON.parse(data))[val], max: 2 })
+          }
+        }
+        console.log('ResultsPage.jsx _tabList=', _tabList)
+        _tabList.length > 0 && setTabList(_tabList)
+      }
 
       // componentWillUnmount
       return () => {
@@ -29,49 +56,162 @@ const ResultsPage = props => {
       }
     }, [])
 
+  const tabContent = useCallback(
+    (title) => {
+      switch (title) {
+        case '平和质': {
+          return `1、体质特征
+总体特征：阴阳气血调和，以体态适中、面色红润、精力充沛等为主要特征。
+形体特征：体形匀称健壮。
+常见表现：面色、肤色润泽，头发稠密有光泽，目光有神，鼻色明润，嗅觉通利，唇色红润，不易疲劳，精力充沛，耐受寒热，睡眠良好，胃纳佳，二便正常，舌色淡红，苔薄白，脉和缓有力。
+心理特征：性格随和开朗。
+发病倾向：平素患病较少。
+对外界环境适应能力：对自然环境和社会环境适应能力较强。\n2、预防调理——原则：平衡阴阳、培补阴阳
+环境起居：起居顺应四时阴阳，劳逸结合。
+运动导引：适度运动即可。
+情志调适：清净立志、开朗乐观、心理平衡。
+饮食调养：食物宜多样化，不偏食，不可过饥过饱、偏寒偏热。
+药物调理：不需。`
+        }
+        case '气虚质': {
+          return `1、体质特征
+总体特征：元气不足，以疲乏、气短、自汗等气虚表现为主要特征。
+形体特征：肌肉松软不实。
+常见表现：平素语音低弱，气短懒言，容易疲乏，精神不振，易出汗，舌淡红，舌边有齿痕，脉弱。
+心理特征：性格内向，不喜冒险。
+发病倾向：易患感冒、内脏下垂等病；病后康复缓慢。
+对外界环境适应能力：不耐受风、寒、暑、湿、邪。\n2、预防调理—原则：益气健脾，培补元气
+环境起居：热则耗气，夏当避暑；冬当避寒，以防感冒；避免过劳伤正气。
+运动导引：起居宜柔缓，不宜剧烈运动以防耗气，应散步、慢跑、打太极、五禽戏等。
+情志调适：气虚之人多神疲乏力、四肢酸懒，应清净养藏，祛除杂念，不躁动，少思虑。
+饮食调养：常食益气健脾食物，如粳米、糯米、小米、大麦、山药、土豆、大枣、香菇、鸡肉、鹅肉、兔肉、鹌鹑、牛肉、青鱼、鲢鱼，少吃耗气食物如生萝卜、空心菜等。
+药物调理：可用甘温补气之品，如人参、山药、黄芪等。脾气虚，宜选四君子汤或参苓白术散；肺气虚，宜选补肺汤；肾气虚，多服肾气丸。`
+        }
+        case '阳虚质': {
+          return `1、体质特征
+总体特征：阳气不足，以畏寒怕冷、手足不温等虚寒表现为主要特征。
+形体特征：肌肉松软不实。
+常见表现：平素畏冷，手足不温，喜热饮食，精神不振，舌淡胖嫩，脉沉迟。
+心理特征：性格多沉静、内向。
+发病倾向：易患痰饮、肿胀、泄泻等病；感邪易从寒化。
+对外界环境适应能力：耐夏不耐冬；易感风、寒、湿邪。\n2、预防调理——原则：益气健脾，补肾温阳
+环境起居：冬避寒就温，春夏培补阳气，多日光浴。夏不露宿室外，眠不直吹电扇，开空调室内外温差不要过大，避免在树荫、水亭及过堂风大的过道久停，注重足下、背部及丹田部位的保暖。
+运动导引：动则生阳，体育锻炼每天1至2次。宜舒缓柔和，如散步、慢跑太极拳、五禽戏、八段锦等。冬天避免在大风、大寒、大雾、大雪及空气污染的环境中锻炼。
+情志调适：这类人常情绪不佳，肝阳虚者善恐、心阳虚者善悲。应保持沉静内敛，消除不良情绪。
+饮食调养：宜食温阳食品如羊肉、狗肉、鹿肉、鸡肉，少吃西瓜等生冷食物。“春夏养阳”，夏日三伏每伏食附子粥或羊肉附子汤一次。平时可          用当归生姜羊肉汤、韭菜炒胡桃仁。
+药物调理：可选补阳祛寒、温养肝肾之品，如鹿茸、海狗肾、蛤蚧、冬虫夏草、巴戟天、仙茅、肉苁蓉、补骨脂、杜仲等，成方可选金匮肾气丸、右归丸。偏心阳虚者，桂枝甘草汤加肉桂常服，虚甚者可加人参；偏脾阳虚者可选择理中丸或附子理中丸。`
+        }
+        case '阴虚质': {
+          return `1、体质特征
+总体特征：阴液亏少，以口燥咽干、手足心热等虚热表现为主要特征。
+形体特征：体形偏瘦。
+常见表现：手足心热，口燥咽干，鼻微干，喜冷饮，大便干燥，舌红少津，脉细数。
+心理特征：性情急躁，外向好动，活泼。
+发病倾向：易患虚劳、失精、不寐等病；感邪易从热化。
+对外界环境适应能力：耐冬不耐夏；不耐受暑、热、燥邪。\n2、预防调理——原则：滋肾养肝、培补阴液
+环境起居：夏应避暑，多去海边高山。秋冬要养阴。居室应安静。不熬夜，不剧烈运动，不在高温下工作。
+运动导引：选动静结合项目，如太极拳、八段锦等。控制出汗量，及时补水。
+神志调适：循《内经》“恬澹虚无”、“精神内守”之法，养成冷静沉着的习惯。对非原则性问题，少与人争，少参加争胜败的文娱活动。
+饮食调养：多食梨、百合、银耳、木瓜、菠菜、无花果、冰糖、茼蒿等甘凉滋润食物，喝沙参粥、百合粥、枸杞粥、桑椹粥、山药粥。少吃葱、姜、蒜、椒等辛辣燥烈品。
+药物调理：可用滋阴清热、滋养肝肾之品，如女贞子、山茱萸、五味子、旱莲草、麦门冬、天门冬、黄精、玉竹、枸杞子等药。常用方有六味地黄丸、大补阴丸等。如肺阴虚，宜服百合固金汤；心阴虚，宜服天王补心丸；脾阴虚，宜服慎柔养真汤；肾阴虚，宜服六味丸；肝阴虚，宜服一贯煎。`
+        }
+        case '痰湿质': {
+          return `1、体质特征
+总体特征：痰湿凝聚，以形体肥胖、腹部肥满、口黏苔腻等痰湿表现为主要特征。
+形体特征：体形肥胖，腹部肥满松软。
+常见表现：面部皮肤油脂较多，多汗且黏，胸闷，痰多，口黏腻或甜，喜食肥甘甜黏，苔腻，脉滑。
+心理特征：性格偏温和、稳重，多善于忍耐。
+发病倾向：易患消渴、中风、胸痹等病。
+对外界环境适应能力：对梅雨季节及湿重环境适应能力差。\n2、预防调理——原则：健脾利湿、化痰泄浊
+环境起居：远离潮湿；阴雨季避湿邪侵袭；多户外活动；穿透气散湿的棉衣；常晒太阳。
+运动导引：身重易倦，应长期坚持锻炼，如散步、慢跑、球类、武术、八段锦及舞蹈等。活动量应逐渐增强，让疏松的皮肉逐渐坚固致密。
+情志调适：易神疲困顿，要多参加各种活动，多听轻松音乐，以动养神。
+饮食调养：少食甜粘油腻，少喝酒勿过饱。多食健脾利湿化痰祛湿的清淡食物，如白萝卜、葱、姜、白果、红小豆等。
+药物调理：重点调补肺脾肾。可用温燥化湿之品，如半夏、茯苓、泽泻、瓜蒌、白术、车前子等。若肺失宣降，当宣肺化痰，选二陈汤；若脾不健运，当健脾化痰，选六君子汤或香砂六君子汤；若肾不温化，当选苓桂术甘汤。`
+        }
+        case '湿热质': {
+          return `1、体质特征
+总体特征：湿热内蕴，以面垢油光、口苦、苔黄腻等湿热表现为主要特征。
+形体特征：形体中等或偏瘦。
+常见表现：面垢油光，易生痤疮，口苦口干，身重困倦，大便黏滞不畅或燥结，小便短黄，男性易阴囊潮湿，女性易带下增多，舌质偏红，苔黄腻，脉滑数。
+心理特征：容易心烦急躁。
+发病倾向：易患疮疖、黄疸、热淋等病。
+对外界环境适应能力：对夏末秋初湿热气候，湿重或气温偏高环境较难适应。\n2、预防调理——原则：清热利湿
+环境起居：避暑湿，环境宜干燥通风，不宜熬夜过劳，长夏应避湿热侵袭。
+运动导引：适合高强度大运动量锻炼，如中长跑、游泳、爬山、球类等，以湿祛散热。夏季应凉爽时锻炼。
+情志调适：多参加开朗轻松的活动，放松身心。
+饮食调养：多吃西红柿、草莓、黄瓜、绿豆、芹菜、薏米、苦瓜、茵陈蒿等物，饮石竹茶。忌辛温滋腻，少喝酒，少吃海鲜。
+药物调理：可用甘淡苦寒清热利湿之品，如黄芩、黄连、龙胆草、虎杖、栀子等。方药可选龙胆泄肝汤、茵陈蒿汤等。`
+        }
+        case '血瘀质': {
+          return `1、体质特征
+总体特征：血行不畅，以肤色晦黯、舌质紫黯等血瘀表现为主要特征。
+形体特征：胖瘦均见。
+常见表现：肤色晦黯，色素沉着，容易出现瘀斑，口唇黯淡，舌黯或有瘀点，舌下络脉紫黯或增粗，脉涩。
+心理特征：易烦，健忘。
+发病倾向：易患癥瘕及痛证、血证等。
+对外界环境适应能力：不耐受寒邪。\n2、预防调理——原则：活血祛瘀、舒经通络
+环境起居：血得温则行，居住宜温不宜凉；冬应防寒。作息规律，睡眠足够，不可过逸以免气滞血瘀。
+运动导引：多做益心脏血脉的活动，如舞蹈、太极拳、八段锦、保健按摩等，各部分都要活动，以助气血运行。
+情志调适：培养乐观豁达情绪，则气血和畅，有利血瘀改善，苦闷忧郁则会加重血瘀。
+饮食调养：常食红糖、丝瓜、玫瑰花、月季花、酒、桃仁等活血祛瘀的食物，酒可少量常饮，醋可多吃，宜喝山楂粥、花生粥。
+药物调理：可用当归、川芎、怀牛膝、徐长卿、鸡血藤、茺蔚子等活血养血的药物，成方可选四物汤等。
+`
+        }
+        case '气郁质': {
+          return `1、体质特征
+总体特征：气机郁滞，以神情抑郁、忧虑脆弱等气郁表现为主要特征。
+形体特征：形体瘦者为多。
+常见表现：神情抑郁，情感脆弱，烦闷不乐，舌淡红，苔薄白，脉弦。
+心理特征：性格内向不稳定、敏感多虑。
+发病倾向：易患脏躁、梅核气、百合病及郁证等。
+对外界环境适应能力：对精神刺激适应能力较差；不适应阴雨天气。\n2、预防调理——原则：疏肝解郁
+环境起居：室内常通风，装修宜明快亮丽。阴雨天调节好情绪。
+运动导引：宜动不宜静，多跑步、爬山、武术、游泳等以流通气血。着意锻炼呼吸吐纳功法，以开导郁滞。
+情志调适：“喜胜忧”，要主动寻快乐，常看喜剧、励志剧、听相声，勿看悲苦剧。多听轻松开朗音乐，多社交活动以开朗豁达。
+饮食调养：少饮酒以活动血脉提情绪。多食行气食物，如佛手、橙子、柑皮、荞麦、韭菜、茴香菜、大蒜、高粱、刀豆等。
+药物调理：常用香附、乌药、川楝子、小茴香、青皮、郁金等疏肝理气解郁的药为主组成方剂，如越鞠丸等。若气郁引起血瘀，当配伍活血化瘀药。`
+        }
+        case '特禀质': {
+          return `1、体质特征
+总体特征：先天失常，以生理缺陷、过敏反应等为主要特征。
+形体特征：过敏体质者一般无特殊；先天禀赋异常者或有畸形，或有生理缺陷。
+常见表现：过敏体质者常见哮喘、风团、咽痒、鼻塞、喷嚏等；患遗传性疾病者有垂直遗传、先天性、家族性特征；患胎传性疾病者具有母体影响胎儿个体生长发育及相关疾病特征。
+心理特征：随禀质不同情况各异。
+发病倾向：过敏体质者易患哮喘、荨麻疹、花粉症及药物过敏等；遗传性疾病如血友病、先天愚型等；胎传性疾病如五迟（立迟、行迟、发迟、齿迟和语迟）、五软（头软、项软、手足软、肌肉软、口软）、解颅、胎惊等。
+对外界环境适应能力：适应能力差，如过敏体质者对易致过敏季节适应能力差，易引发宿疾。\n2、预防调理——原则：健脾补肾、培补先后天。
+环境起居：过敏季节少户外活动，尽量避免接触冷空气及明确知道的过敏物质；居室常通风，保持空气清新。
+运动导引：平时多锻炼以增强体质，可选择慢跑、太极拳、八段锦、跳健身操等适合自己的运动。
+饮食调养：饮食宜清淡，少食辛辣刺激，忌过敏原食物。
+药物调理：可常泡服黄芪、防风、乌梅、五味子，中成药可选择玉屏风散。必要时可中药调理或冬令膏方调理。`
+        }
+      }
+    },
+    [data]
+  )
+
   // render
   return <div className={s.page}>
     <Header title="问卷结果" />
     <div className={s.charts}>
-      <RadarChart></RadarChart>
+      <RadarChart result={JSON.parse(data)}></RadarChart>
     </div>
-     <div className={s.tabsDiv}>
-       {/* <Tabs scrollable swipeable value={value} onChange={setValue}> */}
-       {/*  <Panel title="选项卡1"> */}
-       {/*    <div className={s.content}>选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡2"> */}
-       {/*    <div className="content">选项卡2内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡3"> */}
-       {/*    <div className="content">选项卡3内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡4"> */}
-       {/*    <div className="content">选项卡4内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡5"> */}
-       {/*    <div className="content">选项卡5内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡6"> */}
-       {/*    <div className="content">选项卡6内容</div> */}
-       {/*  </Panel> */}
-       {/*  <Panel title="选项卡7"> */}
-       {/*    <div className="content">选项卡7内容</div> */}
-       {/*  </Panel> */}
-       {/* </Tabs> */}
-       <Tabs>
-         <Tabs.TabPane title='超长的tab11111111' key='1'>
-           <div className={s.content}>选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容 选项卡1内容</div>
-         </Tabs.TabPane>
-          <Tabs.TabPane title='超长的tab22222' key='2'>
-            <div className={s.content}>选项卡1内容 </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane title='超长的tab3333' key='3'>
-           3
-          </Tabs.TabPane>
-       </Tabs>
-     </div>
-
+    {tabList.length > 0 && <div className={s.tabsDiv}>
+      <Tabs defaultActiveKey={'0'} onChange={(key) => {
+        console.log('ResultsPage.jsx Tabs onChange key=', key)
+        setTabIndex(key)
+      }}>
+        {
+          tabList.map(
+            ({ title, content }, index, array) => {
+              return <Tabs.TabPane title={title} key={index}>
+              </Tabs.TabPane>
+            }
+          )
+        }
+      </Tabs>
+    </div>}
+    {tabList.length > 0 && <div className={s.content}>{tabList[tabIndex].content}</div>}
   </div>
 }
 
